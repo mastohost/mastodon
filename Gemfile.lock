@@ -28,6 +28,13 @@ GIT
   specs:
     nilsimsa (1.1.2)
 
+GIT
+  remote: https://github.com/mastohost/terrapin.git
+  revision: 77deb17e04eb56cdda4ad6c02ed5757d1290e089
+  ref: 77deb17e04eb56cdda4ad6c02ed5757d1290e089
+  specs:
+    terrapin (0.6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -402,7 +409,7 @@ GEM
       activesupport (>= 4.2.0)
       mime-types
       mimemagic (~> 0.3.0)
-      terrapin (~> 0.6.0)
+      terrapin!
     paperclip-av-transcoder (0.6.4)
       av (~> 0.9.0)
       paperclip (>= 2.5.2)
