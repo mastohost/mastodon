@@ -5,6 +5,13 @@ GIT
   specs:
     health_check (4.0.0.pre)
       rails (>= 4.0)
+GIT
+  remote: https://github.com/mastohost/terrapin.git
+  revision: 77deb17e04eb56cdda4ad6c02ed5757d1290e089
+  ref: 77deb17e04eb56cdda4ad6c02ed5757d1290e089
+  specs:
+    terrapin (0.6.0)
+      climate_control (>= 0.0.3, < 1.0)
 
 GIT
   remote: https://github.com/rtomayko/posix-spawn
@@ -609,8 +616,6 @@ GEM
     temple (0.8.2)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
-    terrapin (0.6.0)
-      climate_control (>= 0.0.3, < 1.0)
     thor (0.20.3)
     thread_safe (0.3.6)
     thwait (0.1.0)
@@ -780,6 +785,7 @@ DEPENDENCIES
   stoplight (~> 2.2.0)
   streamio-ffmpeg (~> 3.0)
   strong_migrations (~> 0.6)
+  terrapin!
   thor (~> 0.20)
   thwait (~> 0.1.0)
   tty-command (~> 0.9)
