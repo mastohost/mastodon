@@ -3,6 +3,10 @@
 module Remotable
   extend ActiveSupport::Concern
   include RoutingHelper
+  
+  included do
+    after_save :synchronize_remote_attachments!
+  end
 
   class_methods do
     def remotable_attachment(attachment_name, limit, suppress_errors: true)
@@ -29,6 +33,7 @@ module Remotable
           raise Mastodon::UnexpectedResponseError unless suppress_errors
           return
         end
+
         begin
           Request.new(:get, processed_url || url).perform do |response|
             raise Mastodon::UnexpectedResponseError, response unless (200...300).cover?(response.code)
@@ -61,7 +66,10 @@ module Remotable
         end
 
         # File successfuly processed, get its url
-        RemoteSynchronizationManager.instance.set_processed_url(url, full_asset_url(public_send("#{attachment_name}").url(:original))) if processed_url.nil? && needs_synchronization
+        if processed_url.nil? && needs_synchronization
+          @synchronizable_remote_attachments ||= {}
+          @synchronizable_remote_attachments[url] = attachment_name
+        end
 
         nil
       end
@@ -78,6 +86,17 @@ module Remotable
   end
 
   private
+  
+  def synchronize_remote_attachments!
+    return unless defined?(@synchronizable_remote_attachments)
+
+    @synchronizable_remote_attachments.each do |url, attachment_name|
+      cached_url = public_send(attachment_name).blank? ? nil : full_asset_url(public_send(attachment_name).url(:original))
+      RemoteSynchronizationManager.instance.set_processed_url(url, cached_url)
+    end
+
+    @synchronizable_remote_attachments = {}
+  end
 
   def detect_extname_from_content_type(content_type)
     return if content_type.nil?
