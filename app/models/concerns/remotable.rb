@@ -2,7 +2,6 @@
 
 module Remotable
   extend ActiveSupport::Concern
-  include RoutingHelper
   
   included do
     after_save :synchronize_remote_attachments!
@@ -91,7 +90,7 @@ module Remotable
     return unless defined?(@synchronizable_remote_attachments)
 
     @synchronizable_remote_attachments.each do |url, attachment_name|
-      cached_url = public_send(attachment_name).blank? ? nil : full_asset_url(public_send(attachment_name).url(:original))
+      cached_url = public_send(attachment_name).blank? ? nil : public_send(attachment_name).url(:original)
       RemoteSynchronizationManager.instance.set_processed_url(url, cached_url)
     end
 
