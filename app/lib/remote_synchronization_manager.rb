@@ -4,6 +4,7 @@ require 'singleton'
 
 class RemoteSynchronizationManager
   include Singleton
+  include RoutingHelper
 
   PROCESSING_VALUE = '!processing'.freeze
   LOCK_TIME        = 5.minutes.seconds
@@ -43,7 +44,7 @@ class RemoteSynchronizationManager
     if object_url.nil?
       redis.del("processed_media_url:#{remote_url}")
     else
-      redis.setex("processed_media_url:#{remote_url}", CACHE_TIME, object_url)
+      redis.setex("processed_media_url:#{remote_url}", CACHE_TIME, full_asset_url(object_url))
     end
   rescue Redis::BaseError => e
     Rails.logger.warn "Error during synchronization: #{e}"
