@@ -35,6 +35,7 @@ module Remotable
 
         begin
           Request.new(:get, processed_url || url).perform do |response|
+            RemoteSynchronizationManager.instance.set_processed_url(url, nil) if processed_url.present? && response.code == 404
             raise Mastodon::UnexpectedResponseError, response unless (200...300).cover?(response.code)
 
             content_type = parse_content_type(response.headers.get('content-type').last)
