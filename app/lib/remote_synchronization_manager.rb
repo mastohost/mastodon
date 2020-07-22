@@ -22,9 +22,7 @@ class RemoteSynchronizationManager
     RedisLock.acquire(lock_options) do |lock|
       if lock.acquired?
         url = redis.get("processed_media_url:#{remote_url}")
-        if url.nil? || url == PROCESSING_VALUE
-          redis.setex("processed_media_url:#{remote_url}", LOCK_TIME, PROCESSING_VALUE)
-        end
+        redis.setex("processed_media_url:#{remote_url}", LOCK_TIME, PROCESSING_VALUE) if url.nil?
         url
       else
         nil
