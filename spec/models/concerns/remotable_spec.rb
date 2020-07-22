@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Remotable do
-  class Foo
+  class Foo < ApplicationRecord
     def initialize
       @attrs = {}
     end
