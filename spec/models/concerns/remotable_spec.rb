@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Remotable do
-  class Foo < ApplicationRecord
+  class Foo
+    include ActiveRecord::Callbacks
+    
     def initialize
       @attrs = {}
     end
