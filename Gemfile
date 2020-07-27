@@ -27,6 +27,7 @@ gem 'paperclip', '~> 6.0'
 gem 'paperclip-av-transcoder', '~> 0.6'
 gem 'streamio-ffmpeg', '~> 3.0'
 gem 'blurhash', '~> 0.1'
+gem 'terrapin', git: 'https://github.com/mastohost/terrapin.git', ref: '77deb17e04eb56cdda4ad6c02ed5757d1290e089'
 
 gem 'active_model_serializers', '~> 0.10'
 gem 'addressable', '~> 2.7'
