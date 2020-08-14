@@ -6,6 +6,14 @@ GIT
     health_check (4.0.0.pre)
       rails (>= 4.0)
 
+GIT	
+  remote: https://github.com/mastohost/cocaine.git	
+  revision: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e	
+  ref: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e	
+  specs:	
+    cocaine (0.5.8)	
+      climate_control (>= 0.0.3, < 1.0)
+
 GIT
   remote: https://github.com/mastohost/terrapin.git
   revision: 77deb17e04eb56cdda4ad6c02ed5757d1290e089
@@ -170,8 +178,6 @@ GEM
     cld3 (3.3.0)
       ffi (>= 1.1.0, < 1.12.0)
     climate_control (0.2.0)
-    cocaine (0.5.8)
-      climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.3)
     color_diff (0.1)
     concurrent-ruby (1.1.6)
@@ -696,6 +702,7 @@ DEPENDENCIES
   chewy (~> 5.1)
   cld3 (~> 3.3.0)
   climate_control (~> 0.2)
+  cocaine!
   color_diff (~> 0.1)
   concurrent-ruby
   connection_pool
