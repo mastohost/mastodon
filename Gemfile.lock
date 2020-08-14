@@ -6,13 +6,13 @@ GIT
     health_check (4.0.0.pre)
       rails (>= 4.0)
 
-GIT	
-  remote: https://github.com/mastohost/cocaine.git	
-  revision: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e	
-  ref: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e	
-  specs:	
-    cocaine (0.5.8)	
-      climate_control (>= 0.0.3, < 1.0)
+GIT
+  remote: https://github.com/mastohost/cocaine.git
+  revision: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e
+  ref: 9f0de98beff7c2b334fe12f1e58b0b1cbedc296e
+  specs:
+    cocaine (0.5.8)
+    climate_control (>= 0.0.3, < 1.0)
 
 GIT
   remote: https://github.com/mastohost/terrapin.git
