@@ -23,7 +23,7 @@ gem 'dotenv-rails', '~> 2.7'
 gem 'aws-sdk-s3', '~> 1.73', require: false
 gem 'fog-core', '<= 2.1.0'
 gem 'fog-openstack', '~> 0.3', require: false
-gem 'paperclip', '~> 6.0'
+gem 'paperclip', git: 'https://github.com/mastohost/paperclip.git', ref: 'af469b7fa5d441b3e0d5b10017c0e6ed6d88fea4'
 gem 'paperclip-av-transcoder', '~> 0.6'
 gem 'streamio-ffmpeg', '~> 3.0'
 gem 'blurhash', '~> 0.1'
