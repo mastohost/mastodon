@@ -63,7 +63,7 @@ class User < ApplicationRecord
   devise :two_factor_backupable,
          otp_number_of_backup_codes: 10
 
-  devise :registerable, :recoverable, :rememberable, :trackable, :validatable,
+  devise :registerable, :recoverable, :rememberable, :validatable,
          :confirmable
 
   include Omniauthable
@@ -82,12 +82,20 @@ class User < ApplicationRecord
   has_many :webauthn_credentials, dependent: :destroy
 
   has_one :invite_request, class_name: 'UserInviteRequest', inverse_of: :user, dependent: :destroy
-  accepts_nested_attributes_for :invite_request, reject_if: ->(attributes) { attributes['text'].blank? }
+  accepts_nested_attributes_for :invite_request, reject_if: ->(attributes) { attributes['text'].blank? && !Setting.require_invite_text }
+  validates :invite_request, presence: true, on: :create, if: -> { Setting.require_invite_text }
 
   validates :locale, inclusion: I18n.available_locales.map(&:to_s), if: :locale?
   validates_with BlacklistedEmailValidator, on: :create
   validates_with EmailMxValidator, if: :validate_email_dns?
   validates :agreement, acceptance: { allow_nil: false, accept: [true, 'true', '1'] }, on: :create
+
+  # Those are honeypot/antispam fields
+  attr_accessor :registration_form_time, :website, :confirm_password
+
+  validates_with RegistrationFormTimeValidator, on: :create
+  validates :website, absence: true, on: :create
+  validates :confirm_password, absence: true, on: :create
 
   scope :recent, -> { order(id: :desc) }
   scope :pending, -> { where(approved: false) }
@@ -165,6 +173,24 @@ class User < ApplicationRecord
     prepare_new_user! if new_user && approved?
   end
 
+  def update_sign_in!(request, new_sign_in: false)
+    old_current, new_current = current_sign_in_at, Time.now.utc
+    self.last_sign_in_at     = old_current || new_current
+    self.current_sign_in_at  = new_current
+
+    old_current, new_current = current_sign_in_ip, request.remote_ip
+    self.last_sign_in_ip     = old_current || new_current
+    self.current_sign_in_ip  = new_current
+
+    if new_sign_in
+      self.sign_in_count ||= 0
+      self.sign_in_count  += 1
+    end
+
+    save(validate: false) unless new_record?
+    prepare_returning_user!
+  end
+
   def pending?
     !approved?
   end
@@ -194,11 +220,6 @@ class User < ApplicationRecord
 
     update!(approved: true)
     prepare_new_user!
-  end
-
-  def update_tracked_fields!(request)
-    super
-    prepare_returning_user!
   end
 
   def otp_enabled?
