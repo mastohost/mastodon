@@ -719,6 +719,7 @@ DEPENDENCIES
   chewy (~> 5.1)
   cld3 (~> 3.3.0)
   climate_control (~> 0.2)
+  cocaine!
   color_diff (~> 0.1)
   concurrent-ruby
   connection_pool
