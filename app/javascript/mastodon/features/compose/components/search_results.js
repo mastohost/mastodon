@@ -33,6 +33,12 @@ class SearchResults extends ImmutablePureComponent {
     }
   }
 
+  componentDidUpdate () {
+    if (this.props.searchTerm === '') {
+      this.props.fetchSuggestions();
+    }
+  }
+
   handleLoadMoreAccounts = () => this.props.expandSearch('accounts');
 
   handleLoadMoreStatuses = () => this.props.expandSearch('statuses');
@@ -42,7 +48,7 @@ class SearchResults extends ImmutablePureComponent {
   render () {
     const { intl, results, suggestions, dismissSuggestion, searchTerm } = this.props;
 
-    if (results.isEmpty() && !suggestions.isEmpty()) {
+    if (searchTerm === '' && !suggestions.isEmpty()) {
       return (
         <div className='search-results'>
           <div className='trends'>
@@ -55,9 +61,9 @@ class SearchResults extends ImmutablePureComponent {
               <AccountContainer
                 key={suggestion.get('account')}
                 id={suggestion.get('account')}
-                actionIcon={suggestion.get('source') === 'past_interaction' && 'times'}
-                actionTitle={suggestion.get('source') === 'past_interaction' && intl.formatMessage(messages.dismissSuggestion)}
-                onActionClick={suggestion.get('source') === 'past_interaction' && dismissSuggestion}
+                actionIcon={suggestion.get('source') === 'past_interaction' ? 'times' : null}
+                actionTitle={suggestion.get('source') === 'past_interaction' ? intl.formatMessage(messages.dismissSuggestion) : null}
+                onActionClick={dismissSuggestion}
               />
             ))}
           </div>
