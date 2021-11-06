@@ -4,7 +4,7 @@ FROM ubuntu:20.04 as build-dep
 SHELL ["/bin/bash", "-c"]
 
 # Install Node v14 (LTS)
-ENV NODE_VER="14.17.4"
+ENV NODE_VER="14.17.6"
 RUN ARCH= && \
     dpkgArch="$(dpkg --print-architecture)" && \
   case "${dpkgArch##*-}" in \
@@ -56,6 +56,7 @@ COPY Gemfile* package.json yarn.lock /opt/mastodon/
 RUN cd /opt/mastodon && \
   bundle config set deployment 'true' && \
   bundle config set without 'development test' && \
+  bundle config set silence_root_warning true && \
 	bundle install -j"$(nproc)" && \
 	yarn install --pure-lockfile
 
