@@ -18,8 +18,8 @@ gem 'pghero', '~> 2.8'
 gem 'dotenv-rails', '~> 2.7'
 
 gem 'aws-sdk-s3', '~> 1.104', require: false
-gem 'fog-core', '<= 2.1.0'
-gem 'fog-openstack', '~> 0.3', require: false
+gem 'fog-core', '~> 2.2.4'
+gem 'fog-openstack', '~> 1.0.11', require: false
 gem 'kt-paperclip', '~> 7.0'
 gem 'blurhash', '~> 0.1'
 
