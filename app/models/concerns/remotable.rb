@@ -85,7 +85,5 @@ module Remotable
         true
       end
     end
-
-    @synchronizable_remote_attachments = {}
   end
 end
