@@ -35,6 +35,11 @@ module Remotable
         end
 
         begin
+
+          if processed_url.present? && processed_url != RemoteSynchronizationManager::PROCESSING_VALUE
+            sleep 2
+          end
+
           Request.new(:get, processed_url || url).perform do |response|
             RemoteSynchronizationManager.instance.set_processed_url(url, nil) if processed_url.present? && response.code == 404
             raise Mastodon::UnexpectedResponseError, response unless (200...300).cover?(response.code)
