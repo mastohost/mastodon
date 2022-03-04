@@ -32,7 +32,7 @@ commands:
           name: Install system dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y libicu-dev libidn11-dev libprotobuf-dev protobuf-compiler
+            sudo apt-get install -y libicu-dev libidn11-dev
   install-ruby-dependencies:
     parameters:
       ruby-version:
@@ -45,7 +45,7 @@ commands:
             bundle config without 'development production'
           name: Set bundler settings
       - ruby/install-deps:
-          bundler-version: '2.2.31'
+          bundler-version: '2.3.8'
           key: ruby<< parameters.ruby-version >>-gems-v1
   wait-db:
     steps:
