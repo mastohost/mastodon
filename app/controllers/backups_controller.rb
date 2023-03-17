@@ -13,7 +13,7 @@ class BackupsController < ApplicationController
     when :s3
       redirect_to @backup.dump.expiring_url(10)
     when :fog
-      redirect_to @backup.dump.expiring_url(Time.now.utc + 10)
+      redirect_to full_asset_url(@backup.dump.url)
     when :filesystem
       redirect_to full_asset_url(@backup.dump.url)
     end
