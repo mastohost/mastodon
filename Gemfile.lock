@@ -630,7 +630,7 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
-    rufus-scheduler (3.8.2)
+    rufus-scheduler (3.9.0)
       fugit (~> 1.1, >= 1.1.6)
     safety_net_attestation (0.4.0)
       jwt (~> 2.0)
@@ -647,7 +647,7 @@ GEM
       redis (>= 4.5.0, < 5)
     sidekiq-bulk (0.2.0)
       sidekiq
-    sidekiq-scheduler (5.0.2)
+    sidekiq-scheduler (5.0.3)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 6, < 8)
       tilt (>= 1.4.0)
