@@ -1,10 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import { PureComponent } from 'react';
+
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
-import { searchEnabled } from 'mastodon/initial_state';
-import Icon from 'mastodon/components/icon';
+
 import classNames from 'classnames';
+
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import { Icon }  from 'mastodon/components/icon';
+import { searchEnabled } from 'mastodon/initial_state';
 import { HASHTAG_REGEX } from 'mastodon/utils/hashtags';
 
 const messages = defineMessages({
@@ -12,7 +16,7 @@ const messages = defineMessages({
   placeholderSignedIn: { id: 'search.search_or_paste', defaultMessage: 'Search or paste URL' },
 });
 
-class Search extends React.PureComponent {
+class Search extends PureComponent {
 
   static contextTypes = {
     router: PropTypes.object.isRequired,
@@ -161,9 +165,9 @@ class Search extends React.PureComponent {
 
   handleURLClick = () => {
     const { router } = this.context;
-    const { onOpenURL } = this.props;
+    const { value, onOpenURL } = this.props;
 
-    onOpenURL(router.history);
+    onOpenURL(value, router.history);
   };
 
   handleStatusSearch = () => {
@@ -287,7 +291,7 @@ class Search extends React.PureComponent {
           onBlur={this.handleBlur}
         />
 
-        <div role='button' tabIndex='0' className='search__icon' onClick={this.handleClear}>
+        <div role='button' tabIndex={0} className='search__icon' onClick={this.handleClear}>
           <Icon id='search' className={hasValue ? '' : 'active'} />
           <Icon id='times-circle' className={hasValue ? 'active' : ''} aria-label={intl.formatMessage(messages.placeholder)} />
         </div>
