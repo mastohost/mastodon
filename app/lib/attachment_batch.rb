@@ -75,6 +75,8 @@ class AttachmentBatch
             end
           when :fog
             logger.debug { "Deleting #{attachment.path(style)}" }
+            # throttle to avoid 429 Too Many Requests - OVH 60 auth tokens per minute
+            sleep(0.5)
               
             begin
               attachment.send(:directory).files.new(key: attachment.path(style)).destroy
