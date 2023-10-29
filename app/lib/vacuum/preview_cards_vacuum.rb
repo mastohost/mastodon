@@ -17,6 +17,8 @@ class Vacuum::PreviewCardsVacuum
     preview_cards_past_retention_period.find_each do |preview_card|
       preview_card.image.destroy
       preview_card.save
+      # throttle to avoid 429 Too Many Requests - OVH 60 auth tokens per minute
+      sleep(1.5)
     end
   end
 
