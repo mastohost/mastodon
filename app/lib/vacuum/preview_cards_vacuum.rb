@@ -5,6 +5,7 @@ class Vacuum::PreviewCardsVacuum
 
   def initialize(retention_period)
     @retention_period = retention_period
+    @storage_mode     = Paperclip::Attachment.default_options[:storage]
   end
 
   def perform
@@ -17,8 +18,10 @@ class Vacuum::PreviewCardsVacuum
     preview_cards_past_retention_period.find_each do |preview_card|
       preview_card.image.destroy
       preview_card.save
-      # throttle to avoid 429 Too Many Requests - OVH 60 auth tokens per minute
-      sleep(1.5)
+      if @storage_mode == :fog
+        # throttle to avoid 429 Too Many Requests - OVH 60 auth tokens per minute
+        sleep(1.5)
+      end
     end
   end
 
