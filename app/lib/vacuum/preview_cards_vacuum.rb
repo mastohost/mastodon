@@ -5,6 +5,7 @@ class Vacuum::PreviewCardsVacuum
 
   def initialize(retention_period)
     @retention_period = retention_period
+    @storage_mode     = Paperclip::Attachment.default_options[:storage]
   end
 
   def perform
@@ -15,7 +16,18 @@ class Vacuum::PreviewCardsVacuum
 
   def vacuum_cached_images!
     preview_cards_past_retention_period.find_each do |preview_card|
-      preview_card.image.destroy
+      if @storage_mode == :fog
+        begin 
+          preview_card.image.destroy
+        rescue Fog::Storage::OpenStack::NotFound
+          # Ignore failure to delete a file that has already been deleted
+        rescue
+          sleep(5)
+          retry if (retries += 1) < 3
+        end
+      else
+        preview_card.image.destroy
+      end
       preview_card.save
     end
   end
