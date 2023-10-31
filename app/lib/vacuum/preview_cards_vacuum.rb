@@ -18,6 +18,7 @@ class Vacuum::PreviewCardsVacuum
     preview_cards_past_retention_period.find_each do |preview_card|
       if @storage_mode == :fog
         begin 
+          retries ||= 0
           preview_card.image.destroy
         rescue Fog::Storage::OpenStack::NotFound
           # Ignore failure to delete a file that has already been deleted
