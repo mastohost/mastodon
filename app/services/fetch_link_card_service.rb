@@ -102,13 +102,15 @@ class FetchLinkCardService < BaseService
   def attempt_oembed
     service         = FetchOEmbedService.new
     url_domain      = Addressable::URI.parse(@url).normalized_host
-    if url_domain == 'youtube.com' || url_domain == 'www.youtube.com' || url_domain == 'youtu.be'
+    if url_domain == 'youtube.com' || url_domain == 'www.youtube.com' || url_domain == 'youtu.be' || url_domain == 'm.youtube.com' || url_domain == 'www.youtube-nocookie.com'
       youtube_formats = [
-        %r(https?://youtu\.be/(.+)),
-        %r(https?://www\.youtube\.com/watch\?v=(.*?)(&|#|$)),
-        %r(https?://www\.youtube\.com/embed/(.*?)(\?|$)),
-        %r(https?://www\.youtube\.com/v/(.*?)(#|\?|$)),
-        %r(https?://www\.youtube\.com/user/.*?#\w/\w/\w/\w/(.+)\b)
+        %r(v=([\w-]{11})),
+        %r(/v/([\w-]{11})),
+        %r(/live/([\w-]{11})),
+        %r(v%3D([\w-]{11})),
+        %r(/embed/([\w-]{11})),
+        %r(/e/([\w-]{11})),
+        %r(//youtu\.be/([\w-]{11}))
       ]
       youtube_formats.find { |format| @url =~ format } and $1
       video_id = $1
