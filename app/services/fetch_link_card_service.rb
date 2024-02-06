@@ -116,6 +116,8 @@ class FetchLinkCardService < BaseService
       video_id = $1
       if video_id && (video_id.length == 11)
         cached_endpoint = {:endpoint=>"https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D#{$1}&format=json", :format=>:json}
+      else
+        cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
       end
     else
       cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
