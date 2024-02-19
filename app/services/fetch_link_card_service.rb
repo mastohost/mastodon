@@ -109,6 +109,7 @@ class FetchLinkCardService < BaseService
         %r(/live/([\w-]{11})),
         %r(v%3D([\w-]{11})),
         %r(/embed/([\w-]{11})),
+        %r(/shorts/([\w-]{11})),
         %r(/e/([\w-]{11})),
         %r(//youtu\.be/([\w-]{11}))
       ]
