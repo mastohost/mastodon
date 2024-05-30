@@ -95,7 +95,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around :each, type: :system do |example|
+  config.around :each, :streaming, type: :system do |example|
     # Streaming server needs DB access but `use_transactional_tests` rolls back
     # every transaction. Disable this feature for streaming tests, and use
     # DatabaseCleaner to clean the database tables between each test.
@@ -108,6 +108,9 @@ RSpec.configure do |config|
       # other registration modes
       # Also needs to be set per-example here because of the database cleaner.
       Setting.registrations_mode = 'open'
+
+      # Load seeds so we have the default roles otherwise cleared by `DatabaseCleaner`
+      Rails.application.load_seed
 
       example.run
     end
@@ -122,6 +125,6 @@ RSpec.configure do |config|
   end
 
   def streaming_examples_present?
-    RUN_SYSTEM_SPECS
+    RSpec.world.filtered_examples.values.flatten.any? { |example| example.metadata[:streaming] == true }
   end
 end
