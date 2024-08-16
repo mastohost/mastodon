@@ -105,7 +105,27 @@ class FetchLinkCardService < BaseService
   def attempt_oembed
     service         = FetchOEmbedService.new
     url_domain      = Addressable::URI.parse(@url).normalized_host
-    cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
+    if url_domain == 'youtube.com' || url_domain == 'www.youtube.com' || url_domain == 'youtu.be' || url_domain == 'm.youtube.com' || url_domain == 'www.youtube-nocookie.com'
+      youtube_formats = [
+        %r(v=([\w-]{11})),
+        %r(/v/([\w-]{11})),
+        %r(/live/([\w-]{11})),
+        %r(v%3D([\w-]{11})),
+        %r(/embed/([\w-]{11})),
+        %r(/shorts/([\w-]{11})),
+        %r(/e/([\w-]{11})),
+        %r(//youtu\.be/([\w-]{11}))
+      ]
+      youtube_formats.find { |format| @url =~ format } and $1
+      video_id = $1
+      if video_id && (video_id.length == 11)
+        cached_endpoint = {:endpoint=>"https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D#{$1}&format=json", :format=>:json}
+      else
+        cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
+      end
+    else
+      cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
+    end
 
     embed   = service.call(@url, cached_endpoint: cached_endpoint) unless cached_endpoint.nil?
     embed ||= service.call(@url, html: html) unless html.nil?
