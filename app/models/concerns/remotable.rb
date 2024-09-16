@@ -25,7 +25,7 @@ module Remotable
         processed_url = RemoteSynchronizationManager.instance.wait_for_processed_url(url) if needs_synchronization
 
         if processed_url == RemoteSynchronizationManager::PROCESSING_VALUE
-          public_send("#{attachment_name}=", nil) if public_send("#{attachment_name}_file_name").present?
+          public_send(:"#{attachment_name}=", nil) if public_send(:"#{attachment_name}_file_name").present?
           raise HTTP::TimeoutError unless suppress_errors
           return
         end
