@@ -30,6 +30,11 @@ class Mastodon::RedisConfiguration
                })
   end
 
+  def synchro
+    @synchro ||= setup_config(prefix: 'SYNCHRO_')
+                 .merge(namespace: synchro_namespace)
+  end
+
   private
 
   def driver
@@ -52,6 +57,10 @@ class Mastodon::RedisConfiguration
 
   def cache_namespace
     namespace ? "#{namespace}_cache" : 'cache'
+  end
+  
+  def synchro_namespace
+    namespace
   end
 
   def setup_config(prefix: nil, defaults: {})
