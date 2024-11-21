@@ -151,56 +151,7 @@ module Mastodon::CLI
           end
         end
       when :fog
-        fog_directory = Paperclip::Attachment.default_options[:fog_directory]
-        connection = Fog::Storage.new(Paperclip::Attachment.default_options[:fog_credentials])
-        directory = connection.directories.get(fog_directory)
-        last_key = options[:start_after]
-
-        loop do
-          objects = begin
-            directory.files.all(prefix: prefix, marker: last_key, limit: 1000)
-          rescue => e
-            progress.log(pastel.red("Error fetching list of files: #{e}"))
-            progress.log("If you want to continue from this point, add --start-after=#{last_key} to your command") if last_key
-            break
-          end
-
-          break if objects.empty?
-
-          last_key = objects.last.key
-          record_map = preload_records_from_mixed_objects(objects)
-
-          objects.each do |object|
-            path_segments = object.key.split('/')
-            path_segments.delete('cache')
-
-            unless VALID_PATH_SEGMENTS_SIZE.include?(path_segments.size)
-              progress.log(pastel.yellow("Unrecognized file found: #{object.key}"))
-              next
-            end
-
-            model_name      = path_segments.first.classify
-            attachment_name = path_segments[1].singularize
-            record_id      = path_segments[2...-2].join.to_i
-            file_name      = path_segments.last
-            record         = record_map.dig(model_name, record_id)
-            attachment     = record&.public_send(attachment_name)
-
-            progress.increment
-
-            next unless attachment.blank? || !attachment.variant?(file_name)
-
-            begin
-              object.destroy unless dry_run?
-              reclaimed_bytes += object.content_length
-              removed += 1
-
-              progress.log("Found and removed orphan: #{object.key}")
-            rescue => e
-              progress.log(pastel.red("Error processing #{object.key}: #{e}"))
-            end
-          end
-        end
+        fail_with_message 'The fog storage driver is not supported for this operation at this time'
       when :azure
         fail_with_message 'The azure storage driver is not supported for this operation at this time'
       when :filesystem
@@ -226,7 +177,7 @@ module Mastodon::CLI
           attachment_name = path_segments[1].singularize
           file_name       = path_segments.last
 
-          next unless PRELOADED_MODELS.include?(model_name)
+          next unless PRELOAD_MODEL_WHITELIST.include?(model_name)
 
           record     = model_name.constantize.find_by(id: record_id)
           attachment = record&.public_send(attachment_name)
@@ -327,10 +278,14 @@ module Mastodon::CLI
 
     desc 'usage', 'Calculate disk space consumed by Mastodon'
     def usage
-      print_table [
-        %w(Object Total Local),
-        *object_storage_summary,
-      ]
+      say("Attachments:\t#{number_to_human_size(media_attachment_storage_size)} (#{number_to_human_size(local_media_attachment_storage_size)} local)")
+      say("Custom emoji:\t#{number_to_human_size(CustomEmoji.sum(:image_file_size))} (#{number_to_human_size(CustomEmoji.local.sum(:image_file_size))} local)")
+      say("Preview cards:\t#{number_to_human_size(PreviewCard.sum(:image_file_size))}")
+      say("Avatars:\t#{number_to_human_size(Account.sum(:avatar_file_size))} (#{number_to_human_size(Account.local.sum(:avatar_file_size))} local)")
+      say("Headers:\t#{number_to_human_size(Account.sum(:header_file_size))} (#{number_to_human_size(Account.local.sum(:header_file_size))} local)")
+      say("Backups:\t#{number_to_human_size(Backup.sum(:dump_file_size))}")
+      say("Imports:\t#{number_to_human_size(Import.sum(:data_file_size))}")
+      say("Settings:\t#{number_to_human_size(SiteUpload.sum(:file_file_size))}")
     end
 
     desc 'lookup URL', 'Lookup where media is displayed by passing a media URL'
@@ -345,7 +300,7 @@ module Mastodon::CLI
       model_name = path_segments.first.classify
       record_id  = path_segments[2...-2].join.to_i
 
-      fail_with_message "Cannot find corresponding model: #{model_name}" unless PRELOADED_MODELS.include?(model_name)
+      fail_with_message "Cannot find corresponding model: #{model_name}" unless PRELOAD_MODEL_WHITELIST.include?(model_name)
 
       record = model_name.constantize.find_by(id: record_id)
       record = record.status if record.respond_to?(:status)
@@ -363,26 +318,23 @@ module Mastodon::CLI
 
     private
 
-    def object_storage_summary
-      [
-        [:attachments, MediaAttachment.sum(combined_media_sum), MediaAttachment.where(account: Account.local).sum(combined_media_sum)],
-        [:custom_emoji, CustomEmoji.sum(:image_file_size), CustomEmoji.local.sum(:image_file_size)],
-        [:avatars, Account.sum(:avatar_file_size), Account.local.sum(:avatar_file_size)],
-        [:headers, Account.sum(:header_file_size), Account.local.sum(:header_file_size)],
-        [:preview_cards, PreviewCard.sum(:image_file_size), nil],
-        [:backups, Backup.sum(:dump_file_size), nil],
-        [:imports, Import.sum(:data_file_size), nil],
-        [:settings, SiteUpload.sum(:file_file_size), nil],
-      ].map { |label, total, local| [label.to_s.titleize, number_to_human_size(total), local.present? ? number_to_human_size(local) : nil] }
+    def media_attachment_storage_size
+      MediaAttachment.sum(file_and_thumbnail_size_sql)
     end
 
-    def combined_media_sum
-      Arel.sql(<<~SQL.squish)
-        COALESCE(file_file_size, 0) + COALESCE(thumbnail_file_size, 0)
-      SQL
+    def local_media_attachment_storage_size
+      MediaAttachment.where(account: Account.local).sum(file_and_thumbnail_size_sql)
     end
 
-    PRELOADED_MODELS = %w(
+    def file_and_thumbnail_size_sql
+      Arel.sql(
+        <<~SQL.squish
+          COALESCE(file_file_size, 0) + COALESCE(thumbnail_file_size, 0)
+        SQL
+      )
+    end
+
+    PRELOAD_MODEL_WHITELIST = %w(
       Account
       Backup
       CustomEmoji
@@ -404,7 +356,7 @@ module Mastodon::CLI
         model_name = segments.first.classify
         record_id  = segments[2...-2].join.to_i
 
-        next unless PRELOADED_MODELS.include?(model_name)
+        next unless PRELOAD_MODEL_WHITELIST.include?(model_name)
 
         preload_map[model_name] << record_id
       end
