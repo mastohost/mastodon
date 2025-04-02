@@ -9,10 +9,12 @@ class BackupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_backup
 
+  BACKUP_LINK_TIMEOUT = 1.hour.freeze
+
   def download
     case Paperclip::Attachment.default_options[:storage]
     when :s3, :azure
-      redirect_to @backup.dump.expiring_url(10), allow_other_host: true
+      redirect_to @backup.dump.expiring_url(BACKUP_LINK_TIMEOUT.to_i), allow_other_host: true
     when :fog
       redirect_to full_asset_url(@backup.dump.url), allow_other_host: true
     when :filesystem
