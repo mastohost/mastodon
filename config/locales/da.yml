@@ -319,6 +319,7 @@ da:
         create: Opret bekendtgørelse
         title: Ny bekendtgørelse
       preview:
+        disclaimer: Da brugere ikke kan fravælge e-mailnotifikationer, bør disse begrænses til vigtige emner som f.eks. personlige databrud eller serverlukninger.
         explanation_html: 'E-mailen sendes til <strong>%{display_count} brugere</strong>. Flg. tekst medtages i e-mailen:'
         title: Forhåndsvis annonceringsnotifikation
       publish: Publicér
@@ -902,6 +903,8 @@ da:
     system_checks:
       database_schema_check:
         message_html: Databasemigreringer afventer. Kør dem for at sikre den forventede adfærd fra applikationen
+      elasticsearch_analysis_index_mismatch:
+        message_html: Elasticsearch-indeksanalyseringsindstillinger er forældede. Kør <code>tootctl search deploy --only=%{value}</code>
       elasticsearch_health_red:
         message_html: Elasticsearch-klynge er syg (rød status), søgefunktioner er utilgængelige
       elasticsearch_health_yellow:

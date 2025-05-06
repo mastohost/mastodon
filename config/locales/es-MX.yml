@@ -319,6 +319,7 @@ es-MX:
         create: Crear anuncio
         title: Nuevo anuncio
       preview:
+        disclaimer: Como los usuarios no pueden optar por no recibirlas, las notificaciones por correo electrónico deben limitarse a anuncios importantes, como la violación de datos personales o las notificaciones de cierre de servidores.
         explanation_html: 'El correo electrónico se enviará a <strong>%{display_count} usuarios</strong>. En el correo electrónico se incluirá el siguiente texto:'
         title: Vista previa de la notificación del anuncio
       publish: Publicar
@@ -500,7 +501,7 @@ es-MX:
         registration_requested: Se solicitó el registro
         registrations:
           confirm: Confirmar
-          description: Has recibido un registro de un FASP. Recházalo si no lo iniciaste tú. Si lo iniciaste tú, compara cuidadosamente el nombre y la huella de la clave antes de confirmar el registro.
+          description: Has recibido un registro de un FASP. Recházalo si no lo iniciaste tú. Si lo comenzaste tú, compara cuidadosamente el nombre y la huella de la clave antes de confirmar el registro.
           reject: Rechazar
           title: Confirmar registro FASP
         save: Guardar
@@ -902,6 +903,8 @@ es-MX:
     system_checks:
       database_schema_check:
         message_html: Hay migraciones pendientes de la base de datos. Por favor, ejecútalas para asegurarte de que la aplicación funciona como debería
+      elasticsearch_analysis_index_mismatch:
+        message_html: La configuración del analizador de índices de Elasticsearch no está actualizada. Por favor, ejecute <code>tootctl search deploy --only-mapping --only=%{value}</code>
       elasticsearch_health_red:
         message_html: Clúster de Elasticsearch no es saludable (estado rojo), las funciones de búsqueda no están disponibles
       elasticsearch_health_yellow:

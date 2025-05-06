@@ -319,6 +319,7 @@ nl:
         create: Mededeling aanmaken
         title: Nieuwe mededeling
       preview:
+        disclaimer: Omdat gebruikers zich niet voor deze e-mails kunnen afmelden, moeten e-mailmeldingen worden beperkt tot belangrijke aankondigingen, zoals het lekken van gebruikersgegevens of meldingen over het sluiten van deze server.
         explanation_html: 'De e-mail wordt verzonden naar <strong>%{display_count} gebruikers</strong>. De volgende tekst wordt in het bericht opgenomen:'
         title: Voorbeeld van mededeling
       publish: Inschakelen
@@ -902,6 +903,8 @@ nl:
     system_checks:
       database_schema_check:
         message_html: Niet alle databasemigraties zijn voltooid. Je moet deze uitvoeren om er voor te zorgen dat de applicatie blijft werken zoals het hoort
+      elasticsearch_analysis_index_mismatch:
+        message_html: Elasticsearch index analyser-instellingen zijn verouderd. Voer <code>tootctl search deploy --only-mapping --only=%{value}</code> uit
       elasticsearch_health_red:
         message_html: Elasticsearch-cluster is ongezond (rode status), zoekfuncties zijn niet beschikbaar
       elasticsearch_health_yellow:

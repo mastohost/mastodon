@@ -319,6 +319,7 @@ hu:
         create: Közlemény létrehozása
         title: Új közlemény
       preview:
+        disclaimer: Mivel a felhasználók nem iratkozhatnak le róluk, az e-mailes értesítéseket érdemes a fontos bejelentésekre korlátozni, mint a személyes adatokat érintő adatvédelmi incidensek vagy a kiszolgáló bezárására vonatkozó értesítések.
         explanation_html: 'Az e-mail <strong>%{display_count} felhasználónak</strong> lesz elküldve. A következő szöveg fog szerepelni a levélben:'
         title: Közleményértesítés előnézete
       publish: Közzététel
@@ -902,6 +903,8 @@ hu:
     system_checks:
       database_schema_check:
         message_html: Vannak esedékes adatbázis migrációink. Kérlek, futtasd őket, hogy biztosítsd, hogy az alkalmazás megfelelően működjön
+      elasticsearch_analysis_index_mismatch:
+        message_html: Az Elasticsearch indexelemző beállításai elavultak. Futtasd a <code>tootctl search deploy --only-mapping --only=%{value}</code> parancsot.
       elasticsearch_health_red:
         message_html: Az Elasticsearch klaszter egészségtelen (piros állapotú), a keresési funkciók nem érhetők el
       elasticsearch_health_yellow:
