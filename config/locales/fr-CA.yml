@@ -485,9 +485,12 @@ fr-CA:
     fasp:
       debug:
         callbacks:
+          created_at: Créé à
           delete: Supprimer
           ip: Adresse IP
       providers:
+        name: Nom
+        providers: Fournisseur
         registrations:
           confirm: Confirmer
           reject: Rejeter
@@ -563,6 +566,8 @@ fr-CA:
         all: Tout
         limited: Limité
         title: Modération
+      moderation_notes:
+        title: Notes d'arbitrage
       private_comment: Commentaire privé
       public_comment: Commentaire public
       purge: Purge
@@ -771,11 +776,14 @@ fr-CA:
       title: Rôles
     rules:
       add_new: Ajouter une règle
+      add_translation: Ajouter une traduction
       delete: Supprimer
       description_html: Bien que la plupart des gens prétende avoir lu les conditions d'utilisation avant de les accepter, généralement les utilisateur·rice·s ne les lisent vraiment que lorsque un problème apparaît. <strong>Pour faciliter la visualisation des règles de votre serveur en un seul coup d’œil, présentez-les sous la forme d'une liste à puces !</strong> Essayez de garder chacune des règles simple et concise, mais faites attention à ne pas non plus les diviser en de trop nombreux éléments distincts.
       edit: Modifier la règle
       empty: Aucune règle de serveur n'a été définie pour l'instant.
       title: Règles du serveur
+      translation: Traduction
+      translations: Traductions
     settings:
       about:
         manage_rules: Gérer les règles du serveur
@@ -803,7 +811,6 @@ fr-CA:
         preamble: Faire apparaître un contenu intéressant est essentiel pour interagir avec de nouveaux utilisateurs qui ne connaissent peut-être personne sur Mastodonte. Contrôlez le fonctionnement des différentes fonctionnalités de découverte sur votre serveur.
         profile_directory: Annuaire des profils
         public_timelines: Fils publics
-        publish_discovered_servers: Publier les serveurs découverts
         publish_statistics: Publier les statistiques
         title: Découverte
         trends: Tendances
@@ -2033,7 +2040,6 @@ fr-CA:
       post_action: Rédiger
       post_step: Dites bonjour au monde avec du texte, des photos, des vidéos ou des sondages.
       post_title: Rédiger votre premier message
-      share_action: Partager
       share_step: Faites savoir à vos ami·e·s comment vous trouver sur Mastodon.
       share_title: Partager votre profil Mastodon
       sign_in_action: Se connecter
