@@ -5,7 +5,7 @@ class InitialStateSerializer < ActiveModel::Serializer
 
   attributes :meta, :compose, :accounts,
              :media_attachments, :settings,
-             :languages
+             :languages, :features
 
   attribute :critical_updates_pending, if: -> { object&.role&.can?(:view_devops) && SoftwareUpdate.check_enabled? }
 
@@ -30,6 +30,7 @@ class InitialStateSerializer < ActiveModel::Serializer
       store[:use_blurhash]      = object_account_user.setting_use_blurhash
       store[:use_pending_items] = object_account_user.setting_use_pending_items
       store[:show_trends]       = Setting.trends && object_account_user.setting_trends
+      store[:emoji_style]       = object_account_user.settings['web.emoji_style'] if Mastodon::Feature.modern_emojis_enabled?
     else
       store[:auto_play_gif] = Setting.auto_play_gif
       store[:display_media] = Setting.display_media
@@ -83,6 +84,10 @@ class InitialStateSerializer < ActiveModel::Serializer
 
   def languages
     LanguagesHelper::SUPPORTED_LOCALES.map { |(key, value)| [key, value[0], value[1]] }
+  end
+
+  def features
+    Mastodon::Feature.enabled_features
   end
 
   private
