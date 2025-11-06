@@ -13,9 +13,7 @@ import CheckIcon from '@/material-icons/400-24px/check.svg?react';
 import { openModal } from 'mastodon/actions/modal';
 import { fetchPoll, vote } from 'mastodon/actions/polls';
 import { Icon } from 'mastodon/components/icon';
-import emojify from 'mastodon/features/emoji/emoji';
 import { useIdentity } from 'mastodon/identity_context';
-import { makeEmojiMap } from 'mastodon/models/custom_emoji';
 import type * as Model from 'mastodon/models/poll';
 import type { Status } from 'mastodon/models/status';
 import { useAppDispatch, useAppSelector } from 'mastodon/store';
@@ -173,13 +171,14 @@ export const Poll: React.FC<PollProps> = ({ pollId, disabled, status }) => {
             className='button button-secondary'
             disabled={voteDisabled}
             onClick={handleVote}
+            type='button'
           >
             <FormattedMessage id='poll.vote' defaultMessage='Vote' />
           </button>
         )}
         {!showResults && (
           <>
-            <button className='poll__link' onClick={handleReveal}>
+            <button className='poll__link' onClick={handleReveal} type='button'>
               <FormattedMessage id='poll.reveal' defaultMessage='See results' />
             </button>{' '}
             ·{' '}
@@ -187,7 +186,11 @@ export const Poll: React.FC<PollProps> = ({ pollId, disabled, status }) => {
         )}
         {showResults && !disabled && (
           <>
-            <button className='poll__link' onClick={handleRefresh}>
+            <button
+              className='poll__link'
+              onClick={handleRefresh}
+              type='button'
+            >
               <FormattedMessage id='poll.refresh' defaultMessage='Refresh' />
             </button>{' '}
             ·{' '}
@@ -235,12 +238,11 @@ const PollOption: React.FC<PollOptionProps> = (props) => {
     let titleHtml = option.translation?.titleHtml ?? option.titleHtml;
 
     if (!titleHtml) {
-      const emojiMap = makeEmojiMap(poll.emojis);
-      titleHtml = emojify(escapeTextContentForBrowser(title), emojiMap);
+      titleHtml = escapeTextContentForBrowser(title);
     }
 
     return titleHtml;
-  }, [option, poll, title]);
+  }, [option, title]);
 
   // Handlers
   const handleOptionChange = useCallback(() => {

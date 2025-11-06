@@ -73,7 +73,6 @@ lv:
       featured_tag:
         name: 'Šeit ir daži no pēdējiem lietotajiem tēmturiem:'
       filters:
-        action: Izvēlies, kuru darbību veikt, ja ziņa atbilst filtram
         actions:
           blur: Paslēpt informācijas nesējus aiz brīdinājuma, nepaslēpjot tekstu
           hide: Paslēp filtrēto saturu pilnībā, izturoties tā, it kā tas neeksistētu
@@ -104,7 +103,6 @@ lv:
         thumbnail: Aptuveni 2:1 attēls, kas tiek parādīts kopā ar tava servera informāciju.
         trendable_by_default: Izlaist aktuālā satura manuālu pārskatīšanu. Atsevišķas preces joprojām var noņemt no tendencēm pēc fakta.
         trends: Tendences parāda, kuras ziņas, atsauces un ziņu stāsti gūst panākumus tavā serverī.
-        trends_as_landing_page: Šī servera apraksta vietā rādīt aktuālo saturu lietotājiem un apmeklētājiem, kuri ir atteikušies. Nepieciešams iespējot tendences.
       form_challenge:
         current_password: Tu ieej drošā zonā
       imports:
@@ -282,7 +280,6 @@ lv:
         thumbnail: Servera sīkbilde
         trendable_by_default: Atļaut tendences bez iepriekšējas pārskatīšanas
         trends: Iespējot tendences
-        trends_as_landing_page: Izmantojiet tendences kā galveno lapu
       interactions:
         must_be_follower: Bloķēt paziņojumus no ne-sekotājiem
         must_be_following: Bloķēt paziņojumus no cilvēkiem, kuriem tu neseko
