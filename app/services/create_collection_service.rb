@@ -9,10 +9,9 @@ class CreateCollectionService
 
     @collection.save!
 
-    if Mastodon::Feature.collections_federation_enabled?
-      distribute_add_activity
-      distribute_feature_request_activities
-    end
+    notify_local_users
+    distribute_add_activity
+    distribute_feature_request_activities
 
     @collection
   end
@@ -38,6 +37,12 @@ class CreateCollectionService
 
       state = account_to_add.local? ? :accepted : :pending
       @collection.collection_items.build(account: account_to_add, state:)
+    end
+  end
+
+  def notify_local_users
+    @collection.collection_items.select(&:with_local_account?).each do |collection_item|
+      LocalNotificationWorker.perform_async(collection_item.account_id, collection_item.id, collection_item.class.name, 'added_to_collection')
     end
   end
 
