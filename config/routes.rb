@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     resource :unsubscribe, only: [:show, :create], controller: :mail_subscriptions
 
     namespace :auth do
+      resource :acceptance, only: [:create]
       resource :setup, only: [:show, :update], controller: :setup
       resource :challenge, only: [:create]
       get 'sessions/security_key_options', to: 'sessions#webauthn_options'
