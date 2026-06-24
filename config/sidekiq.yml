@@ -61,7 +61,7 @@
       class: Scheduler::SuspendedUserCleanupScheduler
       queue: scheduler
     software_update_check_scheduler:
-      interval: 30 minutes
+      cron: '<%= Random.rand(0..59) %> <%= Random.rand(3..5) %> * * *'
       class: Scheduler::SoftwareUpdateCheckScheduler
       queue: scheduler
     auto_close_registrations_scheduler:
