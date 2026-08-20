@@ -6,7 +6,7 @@ import { ArrowsOutSimpleIcon, MinusIcon, XIcon } from '@phosphor-icons/react';
 
 import { IconButton } from '@/mastodon/components/button/redesign';
 import {
-  hideComposer,
+  closeComposer,
   minimizeComposerToggle,
   selectIsMinimized,
 } from '@/mastodon/reducers/slices/composer';
@@ -39,10 +39,14 @@ const messages = defineMessages({
   messageNew: {
     id: 'compose_form.message.title.new',
     defaultMessage: 'New message',
+    description:
+      'Message refers to a direct message. For languages where this is confusing, "chat" or "direct message" can be used.',
   },
   messageEdit: {
     id: 'compose_form.message.title.edit',
     defaultMessage: 'Edit message',
+    description:
+      'Message refers to a direct message. For languages where this is confusing, "chat" or "direct message" can be used.',
   },
 });
 
@@ -63,7 +67,7 @@ export const ComposeFormHeader: React.FC<{
 
   const dispatch = useAppDispatch();
   const onClose = useCallback(() => {
-    dispatch(hideComposer());
+    dispatch(closeComposer());
   }, [dispatch]);
   const onMinimize = useCallback(() => {
     dispatch(minimizeComposerToggle());

@@ -45,9 +45,10 @@ export const selectComposeCharsCount = createAppSelector(
   (maxChars, text, spoilerText) => {
     const allText = (countableText(text) as string) + spoilerText;
     return {
-      text: allText,
-      current: length(allText),
+      text,
+      allText,
       max: maxChars ?? 500,
+      current: length(allText),
     };
   },
 );
@@ -59,12 +60,38 @@ export const selectComposeCanSubmit = createAppSelector(
     (state) => !!state.compose.get('is_changing_upload'),
     selectComposeCharsCount,
   ],
-  (isSubmitting, isUploading, isChangingUpload, { current, max }) =>
+  (isSubmitting, isUploading, isChangingUpload, { text, max }) =>
     !isSubmitting &&
     !isUploading &&
     !isChangingUpload &&
-    current <= max &&
-    current > 0,
+    text.trim().length <= max &&
+    text.trim().length > 0,
+);
+
+export const selectComposeMentions = createAppSelector(
+  [
+    (state) => state.accounts_map,
+    (state) => state.compose.get('text') as string,
+    (state) => state.server.server.item?.domain,
+  ],
+  (accountsMap, text, localDomain) => {
+    const accounts = new Set<string>();
+    const potentialAccounts = text.matchAll(
+      /@(?<username>[a-zA-Z0-9_.-]+)(?<domain>@[a-zA-Z0-9_.-]+)?/g,
+    );
+    for (const match of potentialAccounts) {
+      const { username, domain } = match.groups ?? {};
+      if (!username) {
+        continue;
+      }
+      const account =
+        domain && domain !== localDomain ? `${username}@${domain}` : username;
+      if (accountsMap[account]) {
+        accounts.add(accountsMap[account]);
+      }
+    }
+    return [...accounts];
+  },
 );
 
 export const selectComposeSensitive = createAppSelector(
@@ -150,7 +177,9 @@ export const selectComposeHasAttachments = createAppSelector(
   },
 );
 
-export type ComposeAttachment = ApiMediaAttachmentJSON & {
+export type ComposeAttachment<
+  TAttachment extends ApiMediaAttachmentJSON = ApiMediaAttachmentJSON,
+> = TAttachment & {
   file?: File;
   unattached: boolean;
 };
@@ -167,6 +196,16 @@ export const selectComposeAttachments = createAppSelector(
       return [];
     }
     return attachments.toJS() as ComposeAttachment[];
+  },
+);
+
+export const selectComposeAttachment = createAppSelector(
+  [selectComposeAttachments, (_, id?: string) => id],
+  (attachments, id) => {
+    if (!id) {
+      return null;
+    }
+    return attachments.find((attachment) => attachment.id === id) ?? null;
   },
 );
 

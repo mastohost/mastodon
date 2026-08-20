@@ -12,7 +12,7 @@ import { emojiUse } from '@/mastodon/actions/emojis';
 import { changeSetting } from '@/mastodon/actions/settings';
 import { IconButton } from '@/mastodon/components/button/redesign';
 import { CircularProgress } from '@/mastodon/components/circular_progress';
-import { Dropdown } from '@/mastodon/components/dropdown/redesign';
+import { MenuCard } from '@/mastodon/components/menu/card';
 import type { PopoverChildProps } from '@/mastodon/components/popover';
 import { Popover } from '@/mastodon/components/popover';
 import { useToggle } from '@/mastodon/hooks/useToggle';
@@ -55,6 +55,7 @@ export const ComposeEmojiButton: React.FC<{ onPick: OnEmojiPick }> = ({
         icon={SmileyIcon}
         ref={setTarget}
         onClick={onToggle}
+        aria-expanded={open}
       >
         <FormattedMessage
           id='emoji_button.label'
@@ -160,7 +161,7 @@ const ComposeEmojiDropdown: React.FC<
   );
 
   return (
-    <Dropdown
+    <MenuCard
       {...props}
       className={classNames(
         'dropdown-animation',
@@ -215,7 +216,7 @@ const ComposeEmojiDropdown: React.FC<
           </div>
         </div>
       </Suspense>
-    </Dropdown>
+    </MenuCard>
   );
 };
 

@@ -15,7 +15,6 @@ import {
 } from '@/mastodon/actions/compose';
 import { processPasteOrDrop } from '@/mastodon/actions/compose_typed';
 import AutosuggestTextareaOriginal from '@/mastodon/components/autosuggest_textarea';
-import { useToggle } from '@/mastodon/hooks/useToggle';
 import { COMPOSER_TEXTAREA_ID } from '@/mastodon/reducers/slices/composer';
 import {
   createAppSelector,
@@ -34,6 +33,8 @@ const messages = defineMessages({
   messagePlaceholder: {
     id: 'compose.message.placeholder',
     defaultMessage: 'Add your recipients and your message.',
+    description:
+      'Message refers to a direct message. For languages where this is confusing, "chat" or "direct message" can be used.',
   },
 });
 
@@ -108,18 +109,12 @@ export const ComposeTextarea: React.FC<ComposeTextareaProps> = ({
   const onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> =
     useCallback(
       (event) => {
-        if (
-          event.key.toLowerCase() === 'enter' &&
-          (event.ctrlKey || event.metaKey)
-        ) {
+        const key = event.key.toLowerCase();
+        if (key === 'enter' && (event.ctrlKey || event.metaKey)) {
           onSubmit();
           event.preventDefault();
-        }
-        if (
-          ['esc', 'escape'].includes(event.key.toLowerCase()) &&
-          event.target instanceof HTMLTextAreaElement
-        ) {
-          event.target.blur();
+        } else if (['esc', 'escape'].includes(key)) {
+          event.currentTarget.blur();
         }
       },
       [onSubmit],
@@ -153,19 +148,10 @@ export const ComposeTextarea: React.FC<ComposeTextareaProps> = ({
   }, [dispatch]);
   const onSuggestionSelected: SuggestSelectedHandler = useCallback(
     (position, token, suggestion) => {
-      dispatch(selectComposeSuggestion(position, token, suggestion));
+      dispatch(selectComposeSuggestion(position, token, suggestion, ['text']));
     },
     [dispatch],
   );
-
-  // Only show placeholder if we don't have focus
-  let placeholder = intl.formatMessage(
-    type === 'message' ? messages.messagePlaceholder : messages.placeholder,
-  );
-  const [focused, { onTrue: onFocus, onFalse: onBlur }] = useToggle();
-  if (focused) {
-    placeholder = '';
-  }
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -181,14 +167,16 @@ export const ComposeTextarea: React.FC<ComposeTextareaProps> = ({
         ref={textareaRef}
         value={text}
         lang={lang}
-        placeholder={placeholder}
+        placeholder={intl.formatMessage(
+          type === 'message'
+            ? messages.messagePlaceholder
+            : messages.placeholder,
+        )}
         disabled={disabled || isSubmitting}
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         onSuggestionSelected={onSuggestionSelected}
-        onFocus={onFocus}
-        onBlur={onBlur}
         onKeyDown={onKeyDown}
         onDrop={onDrop}
         onPaste={onPaste}

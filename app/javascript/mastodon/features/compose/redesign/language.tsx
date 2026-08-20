@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -7,13 +7,12 @@ import { TranslateIcon } from '@phosphor-icons/react';
 
 import { changeComposeLanguage } from '@/mastodon/actions/compose';
 import { IconButton } from '@/mastodon/components/button/redesign';
-import { Dropdown } from '@/mastodon/components/dropdown/redesign';
-import type { PopoverChildProps } from '@/mastodon/components/popover';
-import { Popover } from '@/mastodon/components/popover';
+import { PopoverMenuCard } from '@/mastodon/components/menu/card';
 import { useAppDispatch, useAppSelector } from '@/mastodon/store';
 
 import { LanguageDropdownMenu } from '../components/language_dropdown';
 
+import { useLanguageGuess } from './hooks';
 import classes from './styles.module.scss';
 
 export const LanguageButton: React.FC = () => {
@@ -57,22 +56,24 @@ export const LanguageButton: React.FC = () => {
         />
       </IconButton>
 
-      <Popover
+      <PopoverMenuCard
         isOpen={open}
         onClose={handleClose}
         offset={4}
         placement='bottom-end'
         reference={trigger}
+        className={classes.languageMenu}
+        maxWidth={280}
       >
-        {({ props }) => <LanguageDropdown {...props} onClose={handleClose} />}
-      </Popover>
+        <LanguageDropdown onClose={handleClose} />
+      </PopoverMenuCard>
     </>
   );
 };
 
-export const LanguageDropdown: React.FC<
-  PopoverChildProps & { onClose: () => void }
-> = ({ onClose, ...props }) => {
+export const LanguageDropdown: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => {
   const language = useAppSelector(
     (state) => state.compose.get('language') as string,
   );
@@ -88,43 +89,11 @@ export const LanguageDropdown: React.FC<
   );
 
   return (
-    <Dropdown {...props} className={classes.languageMenu} maxWidth={280}>
-      <LanguageDropdownMenu
-        value={language}
-        guess={guess}
-        onChange={handleChange}
-        onClose={onClose}
-      />
-    </Dropdown>
+    <LanguageDropdownMenu
+      value={language}
+      guess={guess}
+      onChange={handleChange}
+      onClose={onClose}
+    />
   );
 };
-
-function useLanguageGuess() {
-  const text = useAppSelector((state) => state.compose.get('text') as string);
-  const [guess, setGuess] = useState('');
-
-  useEffect(() => {
-    void import('../util/language_detection').then(({ debouncedGuess }) => {
-      if (text.length > 20) {
-        debouncedGuess(text, setGuess);
-      } else {
-        debouncedGuess.cancel();
-      }
-    });
-  }, [text]);
-
-  // Keeping track of the previous render's text length here
-  // to be able to reset the guess when the text length drops
-  // below the threshold needed to make a guess
-  const isLongText = text.length > 20;
-  const [wasLongText, setWasLongText] = useState(() => isLongText);
-  if (wasLongText !== isLongText) {
-    setWasLongText(isLongText);
-
-    if (wasLongText) {
-      setGuess('');
-    }
-  }
-
-  return guess;
-}
