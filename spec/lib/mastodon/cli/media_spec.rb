@@ -280,14 +280,38 @@ RSpec.describe Mastodon::CLI::Media do
       end
     end
 
+    # mastohost: fog mode, as on Swift
     context 'when in fog mode' do
-      before do
-        allow(Paperclip::Attachment).to receive(:default_options).and_return(storage: :fog)
+      let(:media_attachment) { Fabricate(:media_attachment) }
+      let(:kept) { fog_file(media_attachment.file.path(:original).sub(%r{\A.*?(?=media_attachments/)}, '')) }
+      let(:orphan) { fog_file('media_attachments/files/111/222/333/444/555/666/original/gone.png') }
+      let(:files) { instance_double(Fog::OpenStack::Storage::Files) }
+      let(:directory) { instance_double(Fog::OpenStack::Storage::Directory, files: files) }
+      let(:directories) { instance_double(Fog::OpenStack::Storage::Directories, get: directory) }
+
+      def fog_file(key)
+        instance_double(Fog::OpenStack::Storage::File, key: key, content_length: 10, destroy: true)
       end
 
-      it 'warns about usage and exits' do
+      before do
+        require 'fog/openstack'
+        Fog.mock!
+        connection = Fog::Storage.new(provider: 'OpenStack', openstack_auth_url: 'https://keystone.example/v3', openstack_username: 'u', openstack_api_key: 'k')
+        allow(files).to receive(:all).and_return([kept, orphan], [])
+        allow(connection).to receive(:directories).and_return(directories)
+        allow(Fog::Storage).to receive(:new).and_return(connection)
+        defaults = Paperclip::Attachment.default_options.merge(storage: :fog, fog_directory: 'media', fog_credentials: {})
+        allow(Paperclip::Attachment).to receive(:default_options).and_return(defaults)
+      end
+
+      after { Fog.unmock! }
+
+      it 'removes the orphan only' do
         expect { subject }
-          .to raise_error(Thor::Error, /fog storage driver is not supported/)
+          .to output_results('Removed 1 orphans')
+        expect(orphan).to have_received(:destroy)
+        expect(kept).to_not have_received(:destroy)
+        expect(files).to have_received(:all).with(prefix: nil, marker: orphan.key, limit: 1000)
       end
     end
 
