@@ -4,6 +4,10 @@ class FetchLinkCardService < BaseService
   include Redisable
   include Lockable
 
+  YOUTUBE_HOSTS = %w(youtube.com www.youtube.com m.youtube.com youtu.be www.youtube-nocookie.com).freeze
+  YOUTUBE_PATH  = %r{\A/(?:v|e|embed|live|shorts)/([^/]+)/?\z}
+  YOUTUBE_ID    = /\A[\w-]{11}\z/
+
   def call(status, original_url = nil)
     @status       = status
     @original_url = original_url || parse_urls
@@ -102,27 +106,7 @@ class FetchLinkCardService < BaseService
   def attempt_oembed
     service         = FetchOEmbedService.new
     url_domain      = Addressable::URI.parse(@url).normalized_host
-    if url_domain == 'youtube.com' || url_domain == 'www.youtube.com' || url_domain == 'youtu.be' || url_domain == 'm.youtube.com' || url_domain == 'www.youtube-nocookie.com'
-      youtube_formats = [
-        %r(v=([\w-]{11})),
-        %r(/v/([\w-]{11})),
-        %r(/live/([\w-]{11})),
-        %r(v%3D([\w-]{11})),
-        %r(/embed/([\w-]{11})),
-        %r(/shorts/([\w-]{11})),
-        %r(/e/([\w-]{11})),
-        %r(//youtu\.be/([\w-]{11}))
-      ]
-      youtube_formats.find { |format| @url =~ format } and $1
-      video_id = $1
-      if video_id && (video_id.length == 11)
-        cached_endpoint = {:endpoint=>"https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D#{$1}&format=json", :format=>:json}
-      else
-        cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
-      end
-    else
-      cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
-    end
+    cached_endpoint = youtube_endpoint || Rails.cache.read("oembed_endpoint:#{url_domain}")
 
     embed   = service.call(@url, cached_endpoint: cached_endpoint) unless cached_endpoint.nil?
     embed ||= service.call(@url, html: html) unless html.nil?
@@ -161,6 +145,33 @@ class FetchLinkCardService < BaseService
     end
 
     @card.save_with_optional_image!
+  end
+
+  # mastohost: a link to one YouTube video asks YouTube's oEmbed endpoint directly,
+  # without finding it on the video's page first.
+  def youtube_endpoint
+    uri = Addressable::URI.parse(@url)
+    return unless YOUTUBE_HOSTS.include?(uri.normalized_host)
+
+    id = youtube_video_id(uri)
+    return if id.nil?
+
+    { endpoint: "https://www.youtube.com/oembed?url=https%3A//youtube.com/watch%3Fv%3D#{id}&format=json", format: :json }
+  end
+
+  def youtube_video_id(uri)
+    id = if uri.normalized_host == 'youtu.be'
+           uri.path.delete_prefix('/')
+         elsif uri.path == '/watch'
+           uri.query_values&.dig('v')
+         elsif uri.path == '/attribution_link'
+           watch = Addressable::URI.parse(uri.query_values&.dig('u').to_s)
+           watch.query_values&.dig('v') if watch.path == '/watch'
+         else
+           uri.path[YOUTUBE_PATH, 1]
+         end
+
+    id if id.is_a?(String) && id.valid_encoding? && YOUTUBE_ID.match?(id) && id != 'videoseries'
   end
 
   def attempt_opengraph
