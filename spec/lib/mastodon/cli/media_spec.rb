@@ -285,6 +285,9 @@ RSpec.describe Mastodon::CLI::Media do
       let(:media_attachment) { Fabricate(:media_attachment) }
       let(:kept) { fog_file(media_attachment.file.path(:original).sub(%r{\A.*?(?=media_attachments/)}, '')) }
       let(:orphan) { fog_file('media_attachments/files/111/222/333/444/555/666/original/gone.png') }
+      let(:unknown_model) { fog_file('widgets/files/000/000/001/original/x.png') }
+      let(:account) { Fabricate(:account) }
+      let(:unknown_name) { fog_file("accounts/foos/#{format('%018d', account.id).scan(/\d{3}/).join('/')}/original/x.png") }
       let(:files) { instance_double(Fog::OpenStack::Storage::Files) }
       let(:directory) { instance_double(Fog::OpenStack::Storage::Directory, files: files) }
       let(:directories) { instance_double(Fog::OpenStack::Storage::Directories, get: directory) }
@@ -297,7 +300,7 @@ RSpec.describe Mastodon::CLI::Media do
         require 'fog/openstack'
         Fog.mock!
         connection = Fog::Storage.new(provider: 'OpenStack', openstack_auth_url: 'https://keystone.example/v3', openstack_username: 'u', openstack_api_key: 'k')
-        allow(files).to receive(:all).and_return([kept, orphan], [])
+        allow(files).to receive(:all).and_return([kept, unknown_model, unknown_name, orphan], [])
         allow(connection).to receive(:directories).and_return(directories)
         allow(Fog::Storage).to receive(:new).and_return(connection)
         defaults = Paperclip::Attachment.default_options.merge(storage: :fog, fog_directory: 'media', fog_credentials: {})
@@ -306,11 +309,11 @@ RSpec.describe Mastodon::CLI::Media do
 
       after { Fog.unmock! }
 
-      it 'removes the orphan only' do
+      it 'removes the orphan only, past files it does not know' do
         expect { subject }
           .to output_results('Removed 1 orphans')
         expect(orphan).to have_received(:destroy)
-        expect(kept).to_not have_received(:destroy)
+        [kept, unknown_model, unknown_name].each { |file| expect(file).to_not have_received(:destroy) }
         expect(files).to have_received(:all).with(prefix: nil, marker: orphan.key, limit: 1000)
       end
     end

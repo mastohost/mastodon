@@ -171,23 +171,10 @@ module Mastodon::CLI
 
           objects.each do |object|
             path_segments = object.key.split('/')
-            path_segments.delete('cache')
-
-            unless VALID_PATH_SEGMENTS_SIZE.include?(path_segments.size)
-              progress.log(pastel.yellow("Unrecognized file found: #{object.key}"))
-              next
-            end
-
-            model_name      = path_segments.first.classify
-            attachment_name = path_segments[1].singularize
-            record_id      = path_segments[2...-2].join.to_i
-            file_name      = path_segments.last
-            record         = record_map.dig(model_name, record_id)
-            attachment     = record&.public_send(attachment_name)
 
             progress.increment
 
-            next unless attachment.blank? || !attachment.variant?(file_name)
+            next unless orphaned_file?(path_segments, record_map)
 
             begin
               object.destroy unless dry_run?
@@ -198,6 +185,8 @@ module Mastodon::CLI
             rescue => e
               progress.log(pastel.red("Error processing #{object.key}: #{e}"))
             end
+          rescue UnrecognizedOrphanType
+            progress.log(pastel.yellow("Unrecognized file found: #{object.key}"))
           end
         end
       when :azure
@@ -407,6 +396,8 @@ module Mastodon::CLI
       file_name       = path_segments.last
 
       raise UnrecognizedOrphanType unless PRELOADED_MODELS.include?(model_name)
+      # mastohost: a name the model has no attachment for, kept: no call on the record
+      raise UnrecognizedOrphanType unless model_name.constantize.attachment_definitions.key?(attachment_name.to_sym)
 
       record     = record_map.present? ? record_map.dig(model_name, record_id) : model_name.constantize.find_by(id: record_id)
       attachment = record&.public_send(attachment_name)
