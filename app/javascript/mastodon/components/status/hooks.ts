@@ -17,10 +17,7 @@ import {
   directCompose,
   mentionCompose,
 } from '@/mastodon/actions/compose';
-import {
-  initDomainBlockModal,
-  unblockDomain,
-} from '@/mastodon/actions/domain_blocks';
+import { unblockDomain } from '@/mastodon/actions/domain_blocks';
 import type { StatusInteractionIntent } from '@/mastodon/actions/interactions_typed';
 import { statusInteraction } from '@/mastodon/actions/interactions_typed';
 import { openModal } from '@/mastodon/actions/modal';
@@ -71,11 +68,12 @@ import {
   StatusReplyAllIcon,
   StatusReplyIcon,
 } from './icons';
-import type { StatusContextType } from './types';
+import type { StatusContextType, StatusVariant } from './types';
 
 export const StatusContext = createContext<{
   id?: string | null;
   contextType?: StatusContextType;
+  variant?: StatusVariant;
   registerHotkeyCallback?: (
     hotkey: HotkeyName,
     handler: HotkeyHandlerFunction,
@@ -956,7 +954,16 @@ function getMenuItems({
         if (isDomainBlocking) {
           dispatch(unblockDomain(domain));
         } else {
-          dispatch(initDomainBlockModal(account));
+          dispatch(
+            openModal({
+              modalType: 'DOMAIN_BLOCK',
+              modalProps: {
+                domain,
+                acct: account.acct,
+                accountId: account.id,
+              },
+            }),
+          );
         }
       },
       dangerous: !isDomainBlocking,
