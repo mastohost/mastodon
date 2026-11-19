@@ -25,11 +25,7 @@ module RoutingHelper
     when :s3, :azure
       attachment.expiring_url(expires_in.to_i)
     when :fog
-      if Paperclip::Attachment.default_options.dig(:fog_credentials, :openstack_temp_url_key).present?
-        attachment.expiring_url(expires_in.from_now)
-      else
-        full_asset_url(attachment.url)
-      end
+      full_asset_url(attachment.url)
     when :filesystem
       full_asset_url(attachment.url)
     end
