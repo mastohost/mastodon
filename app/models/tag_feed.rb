@@ -27,7 +27,6 @@ class TagFeed < PublicFeed
 
     scope = public_scope
 
-    scope.merge!(tagged_with_any_scope)
     scope.merge!(tagged_with_all_scope)
     scope.merge!(tagged_with_none_scope)
     scope.merge!(tagged_with_cursor_scope(max_id, since_id, min_id))
@@ -36,7 +35,14 @@ class TagFeed < PublicFeed
     scope.merge!(account_filters_scope) if account?
     scope.merge!(media_only_scope) if media_only?
 
-    scope.to_a_paginated_by_id(limit, max_id: max_id, since_id: since_id, min_id: min_id)
+    # One query per tag, merged here: a single query over several rare tags
+    # can walk every status newest-first
+    statuses = any_tag_ids.flat_map do |tag_id|
+      scope.merge(tagged_with_scope(tag_id)).to_a_paginated_by_id(limit, max_id: max_id, since_id: since_id, min_id: min_id)
+    end
+    statuses = statuses.uniq(&:id).sort_by(&:id).reverse
+
+    min_id.present? ? statuses.last(limit) : statuses.first(limit)
   end
 
   private
@@ -49,8 +55,12 @@ class TagFeed < PublicFeed
     Setting.remote_topic_feed_access
   end
 
-  def tagged_with_any_scope
-    Status.group(:id).tagged_with(tags_for(Array(@tag.name) | Array(options[:any])))
+  def any_tag_ids
+    Array(tags_for(Array(@tag.name) | Array(options[:any])))
+  end
+
+  def tagged_with_scope(tag_id)
+    Status.group(:id).tagged_with(tag_id)
   end
 
   def tagged_with_all_scope

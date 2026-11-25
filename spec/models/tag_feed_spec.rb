@@ -82,6 +82,34 @@ RSpec.describe TagFeed do
       expect(results).to contain_exactly(status_tagged_with_dogs, both)
     end
 
+    context 'with several tags in "any" mode' do
+      subject(:feed) { described_class.new(tag_cats, nil, any: [tag_dogs.name, tag_birds.name]) }
+
+      let(:tag_birds) { Fabricate(:tag, name: 'birds') }
+      let!(:status_tagged_with_birds) { Fabricate(:status, tags: [tag_birds]) }
+
+      it 'returns each status once, newest first' do
+        expect(feed.get(20)).to eq [status_tagged_with_birds, both, status_tagged_with_dogs, status_tagged_with_cats]
+      end
+
+      it 'applies the limit across the tags' do
+        expect(feed.get(2)).to eq [status_tagged_with_birds, both]
+      end
+
+      it 'paginates with max_id across the tags' do
+        expect(feed.get(2, status_tagged_with_birds.id)).to eq [both, status_tagged_with_dogs]
+      end
+
+      it 'paginates with min_id across the tags, newest first' do
+        expect(feed.get(2, nil, nil, status_tagged_with_cats.id)).to eq [both, status_tagged_with_dogs]
+      end
+
+      it 'still applies "none" mode' do
+        results = described_class.new(tag_dogs, nil, any: [tag_birds.name], none: [tag_cats.name]).get(20)
+        expect(results).to eq [status_tagged_with_birds, status_tagged_with_dogs]
+      end
+    end
+
     context 'when both local_topic_feed_access and remote_topic_feed_access are disabled' do
       before do
         Setting.local_topic_feed_access = 'disabled'
