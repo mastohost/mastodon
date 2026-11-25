@@ -422,7 +422,7 @@ code {
       margin-bottom: 10px;
       max-width: 100%;
       height: auto;
-      border-radius: var(--avatar-border-radius);
+      border-radius: var(--radius-2);
       background: url('@/images/void.png');
 
       &[src$='missing.png'] {
@@ -929,6 +929,20 @@ code {
     }
   }
 
+  &.left-align {
+    text-align: start;
+    padding: 20px 20px 30px;
+
+    svg {
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .lower-padding {
+      padding: 0 0 8px;
+    }
+  }
+
   p {
     margin-bottom: 15px;
   }
@@ -985,27 +999,8 @@ code {
   }
 }
 
-.flash-message-stack {
-  margin-bottom: 30px;
-
-  .flash-message {
-    border-radius: 0;
-    margin-bottom: 0;
-    border-top-width: 0;
-
-    &:first-child {
-      border-radius: 4px 4px 0 0;
-      border-top-width: 1px;
-    }
-
-    &:last-child {
-      border-radius: 0 0 4px 4px;
-
-      &:first-child {
-        border-radius: 4px;
-      }
-    }
-  }
+.indent {
+  padding: 0 25px;
 }
 
 .form-footer {
@@ -1022,32 +1017,7 @@ code {
   }
 }
 
-.quick-nav {
-  list-style: none;
-  margin-bottom: 25px;
-  font-size: 14px;
-
-  li {
-    display: inline-block;
-    margin-inline-end: 10px;
-  }
-
-  a {
-    color: var(--color-text-brand);
-    text-transform: uppercase;
-    text-decoration: none;
-    font-weight: 700;
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--color-text-brand-soft);
-    }
-  }
-}
-
-.oauth-prompt,
-.follow-prompt {
+.oauth-prompt {
   margin-bottom: 30px;
   color: var(--color-text-secondary);
 
@@ -1133,32 +1103,6 @@ code {
   samp {
     display: block;
     font-size: 14px;
-  }
-}
-
-.action-pagination {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  .actions,
-  .pagination {
-    flex: 1 1 auto;
-  }
-
-  .actions {
-    padding: 30px 0;
-    padding-inline-end: 20px;
-    flex: 0 0 auto;
-  }
-}
-
-.post-follow-actions {
-  text-align: center;
-  color: var(--color-text-secondary);
-
-  div {
-    margin-bottom: 4px;
   }
 }
 
@@ -1583,4 +1527,28 @@ code {
   .button {
     width: 100%;
   }
+}
+
+.strike-card.preview {
+  color: var(--color-text-secondary);
+  background: var(--color-bg-brand-softest);
+  font-size: 14px;
+}
+
+.moderation-action-header {
+  h1 {
+    display: inline;
+  }
+
+  select#admin_account_action_type.select.optional {
+    padding: 7px;
+  }
+
+  div.input.select.optional.admin_account_action_type {
+    display: inline;
+  }
+}
+
+.new_admin_account_action .filters {
+  height: 20px;
 }

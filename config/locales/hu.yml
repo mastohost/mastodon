@@ -37,10 +37,8 @@ hu:
     self_follow_error: A saját fiók nem követhető
   admin:
     account_actions:
-      action: Művelet végrehajtása
       already_silenced: Ezt a fiókot már korlátozták.
       already_suspended: Ezt a fiókot már felfüggesztették.
-      title: 'Moderálási művelet végrehajtása ezen: %{acct}'
     account_moderation_notes:
       create: Megjegyzés hagyása
       created_msg: A moderációs megjegyzés sikeresen létrehozva!
@@ -275,6 +273,7 @@ hu:
         update_ip_block: IP-szabály frissítése
         update_report: Bejelentés frissítése
         update_status: Bejegyzés frissítése
+        update_tag: Hashtag frissítése
         update_user_role: Szerepkör frissítése
         update_username_block: Felhasználónév-szabály frissítése
       actions:
@@ -886,9 +885,7 @@ hu:
       disable: Kikapcsolás
       disabled: Kikapcsolva
       enable: Bekapcsolás
-      enable_hint: Ha bekapcsolod, a kiszolgáló minden nyilvános bejegyzésre feliratkozik ezen a továbbítón, valamint az összes nyilvános bejegyzést elküldi ennek.
       enabled: Bekapcsolva
-      inbox_url: Továbbító URL
       pending: Várakozás a továbbító jóváhagyására
       save_and_enable: Mentés és engedélyezés
       setup: Továbbító kapcsolat felállítása
@@ -907,9 +904,12 @@ hu:
       action_taken_by: 'Kezelte:'
       actions:
         delete_description_html: A bejelentett bejegyzéseket vagy gyűjteményeket törölni fogjuk és feljegyzünk egy vétséget, hogy segítsük az eszkalációt a fiók későbbi kihágásai esetén.
+        disable_description_html: Megakadályozás, hogy a felhasználó használja a fiókját, de nem törli vagy rejti el a tartalmait. A művelet visszavonható. Ez lezárja a fiókot érintő összes jelentést.
         mark_as_sensitive_description_html: A bejelentett bejegyzések médaitartalmait érzékenynek jelöljük, és rögzítünk egy vétséget, hogy segítsük az eszkalációt a fiók későbbi kihágásai esetén.
         resolve_description_html: Nem csinálunk semmit a bejelentett fiókkal, nem jegyzünk fel vétséget, és bezárjuk a bejelentést.
-      actions_description_html: Döntsd el, mit csináljunk, hogy megoldjuk ezt a bejelentést. Ha valamilyen büntető intézkedést hozol a bejelentett fiók ellen, küldünk neki egy figyelmeztetést e-mailben, kivéve ha a <strong>Spam</strong> kategóriát választod.
+        silence_description_html: A profil csak azok számára lesz látható, akik már követik, vagy kézileg rákeresnek, ezzel jelentősen korlátozva az elérését. Ez a művelet bármikor visszafordítható. Ez lezárja a fiókkal szemben indított összes bejelentést.
+        suspend_description_html: A fiók és minden tartalma elérhetetlenné válik és végül törlésre kerül. A fiókkal kapcsolatbalépni lehetetlen lesz. Ez a művelet 30 napig visszafordítható. Ez lezárja a fiók ellen indított összes bejelentést.
+        warn_description_html: Ezt használd ahhoz, hogy a felhasználónak figyelmeztetést küldj bármilyen más következmény nélkül.
       actions_description_remote_html: Döntsd el, mit tegyünk a bejelentés lezárásának érdekében. Ez csak azt befolyásolja, hogy a <strong>saját</strong> kiszolgálód hogyan kommunikál ezzel a távoli fiókkal és hogyan kezeli annak tartalmait.
       actions_no_posts: Ennek a bejelentésnek nincs egyetlen törölhető, társított bejegyzése sem
       add_to_report: Továbbiak hozzáadása a bejelentéshez
@@ -1146,6 +1146,7 @@ hu:
           ok:
             title: A Sidekiq probléma nélkül be lett állítva
           pending:
+            lead_html: 'Nem fut Sidekiq folyamat a következő sorokhoz: %{missing_queues_str}'
             title: Tekintsd át a Sidekiq konfigurációját
           running:
             title: A kiszolgáló ellenőrzi a Sidekiq konfigurációját
@@ -1332,50 +1333,6 @@ hu:
       appeal_approved: Megfellebbezve
       appeal_pending: Fellebbezés folyamatban
       appeal_rejected: Fellebbezés visszautasítva
-    system_checks:
-      database_schema_check:
-        message_html: Vannak esedékes adatbázis migrációink. Kérlek, futtasd őket, hogy biztosítsd, hogy az alkalmazás megfelelően működjön
-      elasticsearch_analysis_index_mismatch:
-        message_html: Az Elasticsearch indexelemző beállításai elavultak. Futtasd a <code>tootctl search deploy --only-mapping --only=%{value}</code> parancsot.
-      elasticsearch_health_red:
-        message_html: Az Elasticsearch klaszter egészségtelen (piros állapotú), a keresési funkciók nem érhetők el
-      elasticsearch_health_yellow:
-        message_html: Az Elasticsearch klaszter egészségtelen (sárga állapotú), érdemes megvizsgálni az okát
-      elasticsearch_index_mismatch:
-        message_html: Az Elasticsearch index leképezések elavultak. Futtasd le a <code>tootctl search deploy --only=%{value}</code> parancsot
-      elasticsearch_preset:
-        action: Dokumentáció megtekintése
-        message_html: Az Elasticsearch klaszter egynél több csomóponttal rendelkezik, de a Mastodon nincs beállítva ezek használatára.
-      elasticsearch_preset_single_node:
-        action: Dokumentácó megtekintése
-        message_html: Az Elasticsearch klaszterednek csak egy csomópontja van, az <code>ES_PRESET</code> értéket <code>single_node_cluster</code> értékre kell állítani.
-      elasticsearch_reset_chewy:
-        message_html: Az Elasticsearch rendszerindexed egy beállításmódosítás miatt elavult. A frissítéshez futtasd a <code>tootctl search deploy --reset-chewy</code> parancsot.
-      elasticsearch_running_check:
-        message_html: Nem sikerült az Elasticsearchhöz kapcsolódni. Ellenőrizd, hogy fut-e, vagy kapcsold ki a teljes szöveges keresést.
-      elasticsearch_version_check:
-        message_html: 'Nem kompatibilis Elasticsearch verzió: %{value}'
-        version_comparison: Az Elasticsearch %{running_version} fut, de %{required_version} szükséges
-      rules_check:
-        action: Kiszolgáló szabályainak kezelése
-        message_html: Még nem definiáltál egy szerver szabályt sem.
-      sidekiq_process_check:
-        message_html: Nincs Sidekiq folyamat, mely a %{value} sorhoz van rendelve. Kérlek, nézd át a Sidekiq beállításait
-      software_version_check:
-        action: Elérhető frissítések megtekintése
-        message_html: Egy Mastodon-frissítés elérhető.
-      software_version_critical_check:
-        action: Elérhető frissítések megtekintése
-        message_html: Kritikus Mastodon frissítés érhető el, frissíts a lehető leggyorsabban.
-      software_version_patch_check:
-        action: Elérhető frissítések megtekintése
-        message_html: Egy hibajavító Mastodon-frissítés elérhető.
-      upload_check_privacy_error:
-        action: Itt találsz több információt
-        message_html: "<strong>A webkiszolgálód félre van konfigurálva. Kockázat merül fel a felhasználóid adatainak biztonságával kapcsolatban.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Itt találsz több információt
-        message_html: "<strong>Az objektumtárolód félre van konfigurálva. Kockázat merül fel a felhasználóid adatainak biztonságával kapcsolatban.</strong>"
     tags:
       moderation:
         not_trendable: Nem lehet felkapott

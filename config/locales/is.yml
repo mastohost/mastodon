@@ -37,10 +37,19 @@ is:
     self_follow_error: Ekki er leyft að fylgjast með eigin aðgangi
   admin:
     account_actions:
-      action: Framkvæma aðgerð
       already_silenced: Þessi aðgangur hefur þegar verið takmarkaður.
       already_suspended: Þessi aðgangur hefur þegar verið settur í frysti.
-      title: Framkvæma umsjónaraðgerð á %{acct}
+      notification_title: Tilkynning til notanda og skilaboð
+      text_box_title: Afleiðingar þessarar aðgerðar
+      title: 'Framkvæma umsjónaraðgerð á @%{acct}:'
+      types:
+        delete: Eyða færslum
+        disable: Gera notandaaðgang óvirkan
+        mark_as_sensitive: Merkja færslur sem viðkvæmar
+        none: Senda aðvörun
+        sensitive: Merkja aðgang sem viðkvæmt efni
+        silence: Takmarka notandaaðgang
+        suspend: Frysta notandaaðgang
     account_moderation_notes:
       create: Skilja eftir minnispunkt
       created_msg: Tókst að útbúa minnispunkt umsjónarmanns!
@@ -275,6 +284,7 @@ is:
         update_ip_block: Uppfæra reglu IP-vistfangs
         update_report: Uppfæra kæru
         update_status: Uppfæra færslu
+        update_tag: Uppfæra myllumerki
         update_user_role: Uppfæra hlutverk
         update_username_block: Uppfæra notandanafnsreglu
       actions:
@@ -457,6 +467,9 @@ is:
       pending_reports_html:
         one: "<strong>%{count}</strong> kæra í bið"
         other: "<strong>%{count}</strong> kærur í bið"
+      pending_server_checks_html:
+        one: Það er <strong>%{count}</strong> vandamál í bið varðandi netþjónninn. Farðu á síðuna <a href="%{url}">Heilsa netþjóns</a> til að sjá frekari upplýsingar.
+        other: Það eru <strong>%{count}</strong> vandamál í bið varðandi netþjónninn. Farðu á síðuna <a href="%{url}">Heilsa netþjóns</a> til að sjá frekari upplýsingar.
       pending_tags_html:
         one: "<strong>%{count}</strong> myllumerki í bið"
         other: "<strong>%{count}</strong> myllumerki í bið"
@@ -590,7 +603,7 @@ is:
         privacy_policy:
           action: Stýra
           hint: Tengill sem vísar á þessa stefnu kemur fram neðst í hverjum tölvupósti
-          title: Meðferð persónuupplýsinga
+          title: Persónuverndarstefna
         title: Stillingar á samhæfni við reglur
       danger_zone:
         disable_feature:
@@ -840,6 +853,7 @@ is:
       priority: Forgangur
       priority_hint: Umsjónaráskriftir eru metnar í forgangsröð, áskriftir með lægra númeri fara fram fyrir áskriftir með hærra númer.
       retract_automatically: Afturkalla ráðleggingar sjálfkrafa
+      retract_automatically_hint: Hvort eigi að leyfa afturköllun eða niðurfærslu á stefnumörkun þegar áskrift fjarlægir viðeigandi atriði. Þegar sjálfvirk afturköllun er virk og samsvarandi ráðlegging er til staðar í lista með lægri forgangi, þá verður hún samþykkt. Þegar sjálfvirk afturköllun er óvirk, verður frekar útbúin tillaga.
       show:
         delete_confirm: Ertu viss um að þú viljir eyða þessari umsjónaráskrift?
         edit: Breyta áskrift
@@ -883,14 +897,16 @@ is:
       title: Vensl %{acct}
     relays:
       add_new: Bæta við nýjum endurvarpa
+      bidirectional: Báðar áttir
+      broadcast: Útvörpun
       delete: Eyða
       description_html: "<strong>Endurvarpi í skýjasambandi</strong> er milliþjónn sem skiptist á miklu magni opinberra færslna við aðra þjóna sem eru áskrifendur að honum og birta sín tíst á honum. <strong>Þetta getur hjálpað litlum og meðalstórum vefþjónum að uppgötva efni úr skýjasambandinu</strong>, sem annars myndi krefjast þess að staðværir notendur fylgist handvirkt með öðru fólki á fjartengdum vefþjónum."
       disable: Gera óvirkt
       disabled: Óvirkt
       enable: Virkja
-      enable_hint: Ef þetta er einu sinni virkjað, mun vefþjónninn þinn gerast áskrifandi að öllum opinberum færslum frá þessum endurvarpa og byrja að senda sín eigin opinberu tíst til hans.
       enabled: Virkt
-      inbox_url: Slóð endurvarpa
+      opt_in: Skrá sig í
+      opt_out: Skrá sig úr
       pending: Bíð eftir samþykki endurvarpa
       save_and_enable: Vista og virkja
       setup: Setja upp endurvarpatengingu
@@ -909,12 +925,14 @@ is:
       action_taken_by: Aðgerð framkvæmd af
       actions:
         delete_description_html: Kærðum færslum og/eða söfnum verður eytt og skráð bann til að flýta fyrir áframhaldandi brotum af hálfu sama notanda.
+        disable_description_html: Koma í veg fyrir að notandinn noti aðganginn sinn, en ekki eyða eða fela efnið þeirra. Þessa aðgerð er hægt að afturkalla. Þetta lokar öllum kærum gagnvart þessum aðgangi.
+        force_sensitive_descption_html: Þvinga fram að öll myndefnisviðhengi þessa notanda verði flögguð sem viðkvæmt efni. Þessa aðgerð er hægt að afturkalla. Þetta lokar öllum kærum gagnvart þessum aðgangi.
         mark_as_sensitive_description_html: Myndefnið í kærðu færslunum verður merkt sem viðkvæmt og refsing verður skráð til minnis fyrir viðbrögð gegn mögulegum framtíðarbrotum frá sama notandaaðgangi.
         resolve_description_html: Til engra aðgerða verður tekið gagnvart kærðum færslum, engin refsing verður skráð og kærunni verður lokað.
         silence_description_html: Notandaaðgangurinn verður einungis sýnilegur þeim sem þegar fylgjast með honum eða sem fletta honum upp handvirkt, sem takmarkar útbreiðslu efnis verulega. Þetta er alltaf hægt að afturkalla. Þetta lokar öllum kærum gagnvart þessum aðgangi.
         suspend_description_html: Notandaaðgangurinn og allt efni á honum mun verða óaðgengilegt og á endanum eytt út og samskipti við aðganginn verða ekki möguleg. Þetta er hægt að afturkalla innan 30 daga. Þetta lokar öllum kærum gagnvart þessum aðgangi.
         warn_description_html: Nota þetta til að senda aðvörun til notandans, án þess að setja neina aðra aðgerð í gang.
-      actions_description_html: Ákveddu til hvaða aðgerða eigi að taka til að leysa þessa kæru. Ef þú ákveður að refsa kærða notandaaðgangnum, verður viðkomandi send tilkynning í tölvupósti, nema ef flokkurinn <strong>Ruslpóstur</strong> sé valinn.
+      actions_description_html: Ákveddu til hvaða aðgerða eigi að taka til að leysa þessa kæru. Ef þú ákveður að refsa kærða notandaaðgangnum, muntu geta valið hvað muni birtast í tölvupóstinum sem viðkomandi verður viðkomandi sendur, nema ef flokkurinn <strong>Ruslpóstur</strong> sé valinn.
       actions_description_remote_html: Ákveddu til hvaða aðgerða eigi að taka til að leysa þessa kæru. Þetta mun aðeins hafa áhrif á hvernig <strong>netþjónninn þinn</strong> meðhöndlar þennan fjartengda aðgang og efnið á honum.
       actions_no_posts: Þessi tilkynning er ekki með neinar tengdar færslur til að eyða
       add_to_report: Bæta fleiru í kæru
@@ -967,14 +985,24 @@ is:
       statuses: Færslur (%{count})
       statuses_description_html: Óviðeigandi efni verður tiltekið í samskiptum við kærðan notandaaðgang
       summary:
+        account_action_preamble_html:
+          one: Úr kæru <a href="%{report_path}">#%{report}</a> með %{count} valinni færslu
+          other: Úr kæru <a href="%{report_path}">#%{report}</a> með %{count} völdum færslum
+          zero: Úr kæru <a href="%{report_path}">#%{report}</a> með engum völdum færslum
         action_preambles:
           delete_html: 'Þú er í þann mund að fara að <strong>fjarlægja</strong> sumar af færslunum frá <strong>@%{acct}</strong>. Þetta mun:'
+          disable_html: 'Þú er í þann mund að fara að <strong>gera aðganginn óvirkann</strong> <strong>@%{acct}</strong>. Þetta mun:'
           mark_as_sensitive_html: 'Þú er í þann mund að fara að <strong>merkja</strong> sumar af færslunum frá <strong>@%{acct}</strong> sem <strong>viðkvæmar</strong>. Þetta mun:'
+          none_html: 'Þú er í þann mund að fara að <strong>aðvara</strong> <strong>@%{acct}</strong> Þetta mun:'
+          sensitive_html: 'Þú er í þann mund að fara að <strong>merkja</strong> aðganginn hjá <strong>@%{acct}</strong> sem <strong>viðkvæmt efni</strong>. Þetta mun:'
           silence_html: 'Þú er í þann mund að fara að <strong>takmarka aðganginn</strong> <strong>@%{acct}</strong>. Þetta mun:'
           suspend_html: 'Þú er í þann mund að fara að <strong>frysta</strong> aðganginn hjá <strong>@%{acct}</strong>. Þetta mun:'
         actions:
           delete_html: Fjarlægja viðkomandi færslur
+          disable_html: Koma í veg fyrir að notandinn noti aðganginn sinn, en ekki eyða eða fela efnið þeirra
           mark_as_sensitive_html: Merkja myndefni í viðkomandi færslum sem viðkvæmt
+          none_html: Senda aðvörun til notandans, án þess að setja neina aðra aðgerð í gang
+          sensitive_html: Þvinga fram að öll myndefnisviðhengi þessa notanda verði flögguð sem viðkvæmt efni
           silence_html: Takmarka verulega umfangið hjá <strong>@%{acct}</strong> með því að gera notandasniðið og efni þess einungis sýnilegt fólki sem þegar fylgist með viðkomandi eða þeim sem fletta handvirkt upp upplýsingunum
           suspend_html: Setja <strong>@%{acct}</strong> í frysti, gera notandasniðið og efni þess óaðgengilegt án mögulegrar gagnvirkni
         close_report: 'Merkja kæruna #%{id} sem leysta'
@@ -1211,6 +1239,7 @@ is:
         preamble: Stýrðu hvernig efni frá notendum sé geymt í Mastodon.
         title: Geymsla efnis
       crawlers:
+        preamble: Stýrðu hvernig bottar (sem haga sér vel) eins og leitarvélaskröpur geta átt í samskiptum við Mastodon-netþjóninn þinn. Illvígir bottar geta hunsað þessar stillingar og þarf því að útiloka með aðgerðum á netkerfinu.
         title: Stýringar vefskrapara
       default_noindex:
         desc_html: Hefur áhrif á alla þá notendur sem ekki hafa breytt þessum stillingum sjálfir
@@ -1268,6 +1297,10 @@ is:
       security:
         authorized_fetch: Krefjast auðkenningar frá netþjónum í skýjasambandi
         authorized_fetch_hint: Ákveddu hvenær fjartengdir netþjónar þurfi að auðkenna sig við að sækja efni af þessum netþjóni.
+        authorized_fetch_hints:
+          actors: Að krefjast auðkenningar fyrir notendasnið virkjar rakningu á hvaða netþjónar hafa uppgötvað hvern að staðværu notendaaðgöngunum hjá þér, sem getur fækkað verulega ónauðsynlegum beiðnum sem verða þegar netþjónar eru látnir vita um eyðingu á notandaaðgangi. Þessi valkostur kemur örlítið niður á afköstum þegar deilt er notendasniðum vegna áðurnefndrar rakningar og vangetu viðsnúna milliþjónsins (reverse proxy) til að setja þessar beiðnir í biðminni. Þetta gæti líka valdið ósamhæfni við sumar þjónustur í skýjasambandi (federated services).
+          all: Til viðbótar við kosti og galla þess að krefjast auðkenningar fyrir notendasnið, mun það að krefjast skilyrðislasrar auðkenningar fyrir netþjóna skýjasambandsins gefa kost á strangari kröfum varðandi útilokanir fyrir bæði notendur og netþjóna. Það mun líka takmarka dreifingu svara frá þér, þar sem áframsending svara verður óvirk.
+          none: Krefst auðkenningar einungis þegar nauðsyn krefur gerir viðsnúna milliþjóninum (reverse proxy) kleift að setja fleiri beiðnir í biðminni. Þessi valkostur gæti verið fjarlægður í framtíðinni. Aðeins nota þetta ef aðrir valkostir valda vandamálum.
         authorized_fetch_modes:
           actors: Fyrir notendasnið og einkaefni
           all: Fyrir allar beiðnir
@@ -1340,50 +1373,6 @@ is:
       appeal_approved: Áfrýjað
       appeal_pending: Áfrýjun í bið
       appeal_rejected: Áfrýjun hafnað
-    system_checks:
-      database_schema_check:
-        message_html: Það eru fyrirliggjandi yfirfærslur á gagnagrunnum. Keyrðu þær til að tryggja að forritið hegði sér eins og skyldi
-      elasticsearch_analysis_index_mismatch:
-        message_html: Stillingar á Elasticsearch efnisskráningargreingu eru úreltar. Þú skalt endilega keyra <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: Elasticsearch-klasinn er ekki í góðu standi (rauð staða), leitareiginleikar eru ekki tiltækir
-      elasticsearch_health_yellow:
-        message_html: Elasticsearch-klasinn er ekki í góðu standi (gul staða), þú gætir viljað rannsaka málið
-      elasticsearch_index_mismatch:
-        message_html: Elasticsearch atriðaskráningin er úrelt. Þú ættir að keyra <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Skoðaðu hjálparskjölin
-        message_html: Elasticsearch-klasinn þinn er með meira en einn hnút, en Mastodon er ekki sett upp til að nota þá.
-      elasticsearch_preset_single_node:
-        action: Skoðaðu hjálparskjölin
-        message_html: Elasticsearch-klasinn þinn er með aðeins einn hnút, <code>ES_PRESET</code> ætti að vera stillt á <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Elasticsearch-kerfisatriðaskráin þín er úrelt vegna breytinga á stillingum. Þú ættir að keyra <code>tootctl search deploy --reset-chewy</code> til að uppfæra hana.
-      elasticsearch_running_check:
-        message_html: Gat ekki tengst við Elasticsearch-leitina. Gakktu úr skugga um að hún sé í gangi, eða gerðu leit í öllum texta óvirka
-      elasticsearch_version_check:
-        message_html: 'Ósamhæfð útgáfa Elasticsearch-leitar: %{value}'
-        version_comparison: Elasticsearch %{running_version} er í gangi á meðan útgáfa %{required_version} er nauðsynleg
-      rules_check:
-        action: Sýsla með reglur netþjónsins
-        message_html: Þú hefur ekki skilgreint neinar reglur fyrir netþjón.
-      sidekiq_process_check:
-        message_html: Ekkert Sidekiq-ferli er í gangi fyrir %{value} biðröð/biðraðir. Endilega athugaðu Sidekiq-uppsetninguna þína
-      software_version_check:
-        action: Skoða tiltækar uppfærslur
-        message_html: Uppfærsla er tiltæk fyrir Mastodon.
-      software_version_critical_check:
-        action: Skoða tiltækar uppfærslur
-        message_html: Áríðandi uppfærsla Mastodon er tiltæk, uppfærðu eins fljótt og auðið er.
-      software_version_patch_check:
-        action: Skoða tiltækar uppfærslur
-        message_html: Uppfærsla með lagfæringum á Mastodon er tiltæk.
-      upload_check_privacy_error:
-        action: Skoðaðu hér til að fá frekari upplýsingar
-        message_html: "<strong>Vefþjónninn þinn er ekki rétt stilltur. Friðhelgi notendanna þinna gæti verið í hættu.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Skoðaðu hér til að fá frekari upplýsingar
-        message_html: "<strong>Gagnageymslan þín er ekki rétt stillt. Friðhelgi notendanna þinna gæti verið í hættu.</strong>"
     tags:
       moderation:
         not_trendable: Getur ekki orðið vinsælt
@@ -1538,7 +1527,9 @@ is:
       delete: Eyða
       dropdown:
         all_actions: Allar aðgerðir
-        disable: Frysta
+        delete: Eyða
+        disable: Gera óvirkt
+        mark_as_sensitive: Merkja sem viðkvæmt
         none: Aðvörun
         sensitive: Viðkvæmt
         silence: Takmarka
@@ -1855,7 +1846,7 @@ is:
     notification:
       create_account: Búa til nýjan Mastodon-aðgang
       footer:
-        privacy_html: Tölvupóstar eru sendir frá %{domain}, netþjóni sem keyrir Mastodon. Til að sjá hvernig þessi netþjónn vinnur með persónuleg gögn þín, Þá ættirðu að skoða <a href="%{privacy_policy_path}">Meðferð persónuupplýsinga</a>.
+        privacy_html: Tölvupóstar eru sendir frá %{domain}, netþjóni sem keyrir Mastodon. Til að sjá hvernig þessi netþjónn vinnur með persónuleg gögn þín, Þá ættirðu að skoða síðuna <a href="%{privacy_policy_path}">Persónuverndarstefna</a>.
         reason_for_email_html: Þú færð þennan tölvupóst vegna þess að þú skráðir þig til að fá pósta með færslum frá %{name}. Viltu ekki fá þessar póstsendingar? <a href="%{unsubscribe_path}">Hættu í áskrift</a>
       interact_with_this_post:
         one: Eigðu í samskiptum við þessa færslu og finndu fleiri í sama dúr.
@@ -2256,6 +2247,7 @@ is:
   otp_authentication:
     code_hint: Settu inn kóðann sem auðkenningarforritið útbjó til staðfestingar
     delete: Eyða
+    delete_confirmation: Ertu viss um að þú viljir eyða auðkenningarforritinu þínu úr aðferðum fyrir tveggja-þátta auðkenningu?
     description_html: Ef þú virkjar <strong>tveggja-þátta auðkenningu</strong> með auðkenningarforriti, mun innskráning krefjast þess að þú hafir símann þinn við hendina, með honum þarf að útbúa öryggisteikn sem þú þarft að setja inn.
     enable: Virkja
     instructions_html: "<strong>Skannaðu þennar QR-kóða inn í Google Authenticator eða álíka TOTP-forrit á símanum þínum</strong>. Héðan í frá mun það forrit útbúa teikn sem þú verður að setja inn til að geta skráð þig inn."
@@ -2295,9 +2287,11 @@ is:
     privacy_hint_html: Stýrðu því hve miklar upplýsingar þú birtir sem gætu gagnast öðrum. Fólk uppgötvar áhugaverða notendur og sniðug forrit með því að skoða hvað annað fólk fylgist með og hvaða forrit það notar til að birta færslur, en hinsvegar er þér frjálst að halda þessu leyndu.
     reach: Útbreiðsla
     reach_hint_html: Stýrðu hvort annað fólk geti fundið þig og fylgst með þér. Viltu að færslur frá þér birtist á Kanna-skjánum? Viltu að annað fólk sjái þigþar sem mælt er með hverjum hægt sé að fylgjast með? Viltu samþykkja alla nýja fylgjendur sjálfkrafa, eða viltu stýra því fyrir hvern og einn?
+    relays_hint_html: Að auki geturðu skráð þig á forstillta endurvarpa sem dreifa opinberum færslum þínum til enn fleiri lesenda út um víða velli skýjasambandsins.
     search: Leit
     search_hint_html: Stýrðu hvernig hægt sé að finna þig. Viltu að fólk finni þig út frá því sem þú hefur birt opinberlega? Viltu að fólk utan Mastodon geti fundið notandasniðið þitt þegar það leitar á vefnum? Athugaðu að ekki er hægt að tryggja algjöra útilokun frá öllum leitarvélum þegar um opinberlega birtar upplýsingar er að ræða.
     title: Gagnaleynd og útbreiðsla
+    view_relays: Sýslaðu með endurvarpana þína
   privacy_policy:
     title: Persónuverndarstefna
   reactions:
@@ -2328,6 +2322,11 @@ is:
     remove_selected_followers: Fjarlægja valda fylgjendur
     remove_selected_follows: Hætta að fylgjast með völdum notendum
     status: Staða aðgangs
+  relay_preferences:
+    explanation_html: Þetta eru endurvarpar sem %{domain} getur tengst. <strong>Endurvarpar skýjasambandsins geta hjálpað opinberu færslunum þínum að ná til breiðari lesendahóps.</strong> Ef þú skráir þig á endurvarpa, verður <strong>opinberum</strong> færslum þínum deilt með endurvarpanum, sem deilir þeim svo áfram. Aðrar gerðir færslna eru aldrei sendar á endurvarpa.
+    opt_in: Skrá sig til að deila
+    relay: Endurvarpi
+    title: Kjörstillingar endurvarpa
   remote_follow:
     missing_resource: Gat ekki fundið endurbeiningarslóðina fyrir notandaaðganginn þinn
   reports:

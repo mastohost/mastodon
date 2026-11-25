@@ -37,10 +37,19 @@ es-AR:
     self_follow_error: No está permitido seguir tu propia cuenta
   admin:
     account_actions:
-      action: Ejecutar acción
       already_silenced: Esta cuenta ya fue limitada.
       already_suspended: Esta cuenta ya ha sido suspendida.
-      title: Ejecutar acción de moderación en %{acct}
+      notification_title: Mensaje y notificación de usuario
+      text_box_title: Consecuencias de esta acción
+      title: 'Ejecutar acción de moderación en @%{acct}:'
+      types:
+        delete: Eliminar mensajes
+        disable: Congelar cuenta
+        mark_as_sensitive: Marcar mensajes como sensibles
+        none: Enviar una advertencia
+        sensitive: Marcar cuenta como sensible
+        silence: Limitar cuenta
+        suspend: Suspender cuenta
     account_moderation_notes:
       create: Dejar nota
       created_msg: "¡Nota de moderación creada exitosamente!"
@@ -275,6 +284,7 @@ es-AR:
         update_ip_block: Actualizar regla de dirección IP
         update_report: Actualizar denuncia
         update_status: Actualizar mensaje
+        update_tag: Actualizar etiqueta
         update_user_role: Actualizar rol
         update_username_block: Actualizar regla de nombre de usuario
       actions:
@@ -457,6 +467,9 @@ es-AR:
       pending_reports_html:
         one: "<strong>%{count}</strong> denuncia pendiente"
         other: "<strong>%{count}</strong> denuncias pendientes"
+      pending_server_checks_html:
+        one: Hay <strong>%{count}</strong> problema pendiente con el servidor. Para conocer los detalles, andá a la <a href="%{url}">Página de salud del servidor</a>.
+        other: Hay <strong>%{count}</strong> problemas pendientes con el servidor. Para conocer los detalles, andá a la <a href="%{url}">Página de salud del servidor</a>.
       pending_tags_html:
         one: "<strong>%{count}</strong> etiqueta pendiente"
         other: "<strong>%{count}</strong> etiquetas pendientes"
@@ -884,14 +897,16 @@ es-AR:
       title: Relaciones de %{acct}
     relays:
       add_new: Agregar nuevo relé
+      bidirectional: Bidireccional
+      broadcast: Transmisión
       delete: Eliminar
       description_html: Un <strong>relé de federación</strong> es un servidor intermedio que intercambia grandes volúmenes de mensajes públicos entre servidores que se suscriben y publican en él. <strong>Puede ayudar a servidores chicos y medianos a descubrir contenido del fediverso</strong>, que de otra manera requeriría que los usuarios locales siguiesen manualmente a cuentas de servidores remotos.
       disable: Deshabilitar
       disabled: Deshabilitado
       enable: Habilitar
-      enable_hint: Una vez habilitado, tu servidor se suscribirá a todos los mensajes públicos desde este relé, y comenzará a enviar los mensajes públicos de este servidor al relé.
       enabled: Habilitado
-      inbox_url: Dirección web del relé
+      opt_in: Optar
+      opt_out: Rechazar
       pending: Esperando aprobación del relé
       save_and_enable: Guardar y habilitar
       setup: Configurar una conexión de relé
@@ -917,7 +932,7 @@ es-AR:
         silence_description_html: La cuenta será visible solo para quienes ya la siguen o la busquen manualmente, limitando severamente su alcance. Siempre puede ser revertido. Esto cierra todas las denuncias contra esta cuenta.
         suspend_description_html: La cuenta y todos sus contenidos serán inaccesibles y finalmente eliminados, e interactuar con ella será imposible. Revertible en 30 días. Esto cierra todas las denuncias contra esta cuenta.
         warn_description_html: Usá esto para enviarle una advertencia al usuario, sin ejecutar ninguna otra acción.
-      actions_description_html: Decidí qué medidas tomar para resolver esta denuncia. Si tomás una acción punitiva contra la cuenta denunciada, se le enviará a dicha cuenta una notificación por correo electrónico, excepto cuando se seleccione la categoría <strong>Spam</strong>.
+      actions_description_html: Decidí qué medidas tomar para resolver esta denuncia. Si tomás una acción punitiva contra la cuenta denunciada, podrás seleccionar lo que aparecerá en la notificación de correo electrónico que se le enviará, excepto cuando se selecciona la categoría <strong>Spam</strong>.
       actions_description_remote_html: Decidí qué medidas tomar para resolver esta denuncia. Esto solo afectará la forma en que <strong>tu servidor</strong> se comunica con esta cuenta remota y maneja su contenido.
       actions_no_posts: Esta denuncia no tiene ningún mensaje asociado para eliminar
       add_to_report: Agregar más a la denuncia
@@ -970,14 +985,24 @@ es-AR:
       statuses: Mensajes (%{count})
       statuses_description_html: El contenido ofensivo se citará en la comunicación con la cuenta denunciada
       summary:
+        account_action_preamble_html:
+          one: De la denuncia <a href="%{report_path}">#%{report}</a> con %{count} mensaje seleccionado
+          other: De la denuncia <a href="%{report_path}">#%{report}</a> con %{count} mensajes seleccionados
+          zero: De la denuncia <a href="%{report_path}">#%{report}</a> sin mensajes seleccionados
         action_preambles:
           delete_html: 'Estás a punto de <strong>eliminar</strong> algunos de los mensajes de <strong>@%{acct}</strong>. Esto hará lo siguiente:'
+          disable_html: 'Estás a punto de <strong>suspender</strong> la cuenta de <strong>@%{acct}</strong>. Esto hará lo siguiente:'
           mark_as_sensitive_html: 'Estás a punto de <strong>marcar</strong> algunos de los mensajes de <strong>@%{acct}</strong>como <strong>sensibles</strong>. Esto hará lo siguiente:'
+          none_html: 'Estás a punto de <strong>advertir</strong><strong>@%{acct}</strong>. Esto hará lo siguiente:'
+          sensitive_html: 'Estás a punto de <strong>marcar</strong> la cuenta de <strong>@%{acct}</strong> como <strong>sensible</strong>. Esto hará lo siguiente:'
           silence_html: 'Estás a punto de <strong>limitar</strong> la cuenta de <strong>@%{acct}</strong>. Esto hará lo siguiente:'
           suspend_html: 'Estás a punto de <strong>suspender</strong> la cuenta de <strong>@%{acct}</strong>. Esto hará lo siguiente:'
         actions:
           delete_html: Eliminar los mensajes ofensivos
+          disable_html: Evita que el usuario use su cuenta, pero no elimina ni oculta sus contenidos
           mark_as_sensitive_html: Marcar los mensajes ofensivos como sensibles
+          none_html: Envía una advertencia al usuario, sin activar ninguna otra acción
+          sensitive_html: Fuerza a que todos los archivos adjuntos de medios de este usuario sean marcados como sensibles
           silence_html: Limitar severamente el alcance de <strong>@%{acct}</strong> haciendo que su perfil y contenido solo sean visibles para las personas que ya lo siguen o que busquen manualmente su perfil
           suspend_html: Suspender <strong>@%{acct}</strong>, haciendo su perfil y contenido inaccesibles, e imposibilitando la interacción con la cuenta
         close_report: 'Marcar denuncia #%{id} como resuelta'
@@ -1346,50 +1371,6 @@ es-AR:
       appeal_approved: Apelado
       appeal_pending: Apelación pendiente
       appeal_rejected: Apelación rechazada
-    system_checks:
-      database_schema_check:
-        message_html: Hay migraciones pendientes de la base de datos. Por favor, ejecutalas para asegurarte de que la aplicación funciona según lo esperado
-      elasticsearch_analysis_index_mismatch:
-        message_html: La configuración del analizador de índices Elasticsearch está desactualizada. Por favor, ejecutá <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: El estado del clúster de Elasticsearch no es saludable (estado rojo), las funciones de búsqueda no están disponibles
-      elasticsearch_health_yellow:
-        message_html: El estado del clúster de Elasticsearch no es saludable (estado amarillo), es posible que quieras investigar el motivo
-      elasticsearch_index_mismatch:
-        message_html: Las asignaciones de índices de Elasticsearch están desactualizadas. Por favor, ejecutá <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Ver documentación
-        message_html: Tu clúster de Elasticsearch tiene más de un nodo, pero Mastodon no está configurado para usarlos.
-      elasticsearch_preset_single_node:
-        action: Ver documentación
-        message_html: Tu clúster de Elasticsearch solo tiene un nodo, <code>ES_PRESET</code> debe establecerse a <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Tu sistema de indexado Elasticsearch está desactualizado debido a un cambio de configuración. Ejecutá <code>tootctl search deploy --reset-chewy</code> para actualizarlo.
-      elasticsearch_running_check:
-        message_html: No se pudo conectar a Elasticsearch. Por favor, revisá que se esté ejecutando, o deshabilitá la búsqueda de texto completo
-      elasticsearch_version_check:
-        message_html: 'Versión incompatible de Elasticsearch: %{value}'
-        version_comparison: Se está ejecutando la versión %{running_version} de Elasticsearch, mientras que la versión requerida es la %{required_version}
-      rules_check:
-        action: Administrar reglas del servidor
-        message_html: No definiste ninguna regla del servidor.
-      sidekiq_process_check:
-        message_html: No hay ningún proceso Sidekiq en ejecución para la/s cola/s %{value}. Por favor, revisá tu configuración de Sidekiq
-      software_version_check:
-        action: Ver actualizaciones disponibles
-        message_html: Hay disponible una actualización de Mastodon.
-      software_version_critical_check:
-        action: Ver actualizaciones disponibles
-        message_html: Una actualización crítica de Mastodon está disponible; por favor, actualizá lo antes posible.
-      software_version_patch_check:
-        action: Ver actualizaciones disponibles
-        message_html: Hay disponible una corrección de errores en la actualización de Mastodon.
-      upload_check_privacy_error:
-        action: Revisá acá para más información
-        message_html: "<strong>Tu servidor web está mal configurado. La privacidad de tus usuarios está en riesgo.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Revisá acá para más información
-        message_html: "<strong>El almacenamiento de tu objeto está mal configurado. La privacidad de tus usuarios está en riesgo.</strong>"
     tags:
       moderation:
         not_trendable: No disponible para tendencia
@@ -1544,7 +1525,9 @@ es-AR:
       delete: Eliminar
       dropdown:
         all_actions: Todas las acciones
+        delete: Eliminar
         disable: Congelar
+        mark_as_sensitive: Marcar como sensible
         none: Advertir
         sensitive: Marcar como sensible
         silence: Limitar
@@ -2301,9 +2284,11 @@ es-AR:
     privacy_hint_html: Controlá cuánto querés revelar a los demás. La gente descubre perfiles interesantes y aplicaciones copadas explorando los seguimientos de otras personas y viendo qué aplicaciones usan, pero puede que prefieras mantener esto oculto.
     reach: Alcance
     reach_hint_html: Controlá si querés ser descubierto y seguido por nuevas cuentas. ¿Querés que tus mensajes aparezcan en la sección de Explorar? ¿Querés que otras personas te vean en las recomendaciones para seguir? ¿Querés aceptar automáticamente a todos los nuevos seguidores, o querés tener el control sobre cada uno de ellos?
+    relays_hint_html: Además, podé optar por los repetidores preconfigurados que distribuyen tus mensajes públicos a una audiencia aún más amplia a través del Fediverso.
     search: Búsqueda
     search_hint_html: Controlá cómo querés ser encontrado. ¿Querés que la gente te encuentre por lo que publicaste? ¿Querés que desde fuera de Mastodon se encuentre tu perfil al buscar en la web? Por favor, tené en cuenta que la exclusión total de información pública de todos los motores de búsqueda no puede ser garantizada.
     title: Privacidad y alcance
+    view_relays: Administrá tus repetidores
   privacy_policy:
     title: Política de privacidad
   reactions:
@@ -2334,6 +2319,11 @@ es-AR:
     remove_selected_followers: Quitar los seguidores seleccionados
     remove_selected_follows: Dejar de seguir a los usuarios seleccionados
     status: Estado de la cuenta
+  relay_preferences:
+    explanation_html: Estos son repetidores con los que %{domain} puede conectar. <strong>Los repetidores del Fediverso pueden ayudar a que tus mensajes públicos alcancen una audiencia más amplia.</strong> Si optás por un repetidor, tus mensajes <strong>públicos</strong> se compartirán con el repetidor, los cuales, a su vez, pueden compartirlos de nuevo. Los mensajes de otro tipo nunca se envían a los repetidores.
+    opt_in: Optar para compatir
+    relay: Repetidor
+    title: Configuración del repetidor
   remote_follow:
     missing_resource: No se pudo encontrar la dirección web de redireccionamiento requerida para tu cuenta
   reports:

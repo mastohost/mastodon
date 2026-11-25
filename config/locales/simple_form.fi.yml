@@ -25,11 +25,10 @@ fi:
         type_html: Valitse mitä teet käyttäjälle <strong>%{acct}</strong>
         types:
           disable: Estä käyttäjää käyttämästä tiliään, mutta älä poista tai piilota sen sisältöä.
-          none: Käytä tätä lähettääksesi varoitus käyttäjälle käynnistämättä mitään muita toimia.
+          none: Käytä tätä lähettääksesi varoitus käyttäjälle aiheuttamatta muita toimia.
           sensitive: Pakota kaikki tämän käyttäjän mediatiedostot arkaluonteisiksi.
           silence: Estä käyttäjää lähettämästä julkaisuja, joiden näkyvyys on julkinen, sekä piilota hänen julkaisunsa ja häneen liittyvät ilmoitukset niiltä, jotka eivät seuraa häntä. Sulkee kaikki tiliin kohdistuvat raportit.
           suspend: Estä kaikki vuorovaikutus tältä tililtä ja tälle tilille sekä poista kaikki sen sisältö. Peruttavissa 30 päivän ajan. Sulkee kaikki tiliin kohdistuvat raportit.
-        warning_preset_html: Valinnainen. Voit <a href="%{path}">hallita niitä täältä</a>
       announcement:
         all_day: Kun valittuna, vain aikavälin päivät näytetään
         ends_at: Valinnainen. Tiedote poistetaan automaattisesti tällä hetkellä
@@ -251,7 +250,6 @@ fi:
         setting_default_privacy: Julkaisun näkyvyys
         setting_default_quote_policy: Kuka voi lainata
         setting_default_sensitive: Merkitse media aina arkaluonteiseksi
-        setting_default_spoiler_field: Käytä sisältövaroituksia oletuksena
         setting_delete_modal: Varoita ennen kuin poistan julkaisun
         setting_disable_hover_cards: Poista käytöstä profiilin esikatselu osoitettaessa
         setting_disable_swiping: Poista pyyhkäisyeleet käytöstä

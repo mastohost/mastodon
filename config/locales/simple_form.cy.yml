@@ -30,7 +30,6 @@ cy:
           sensitive: Gorfodi holl atodiadau cyfryngau'r defnyddiwr hwn i gael eu nodi fel rhai sensitif.
           silence: Atal y defnyddiwr rhag gallu postio gyda gwelededd cyhoeddus, cuddio ei bostiadau a'i hysbysiadau rhag pobl nad ydyn nhw'n eu dilyn. Yn cau pob adroddiad yn erbyn y cyfrif hwn.
           suspend: Atal unrhyw ryngweithio o neu i'r cyfrif hwn a dileu ei gynnwys. Dychwelyd o fewn 30 diwrnod. Yn cau pob adroddiad yn erbyn y cyfrif hwn.
-        warning_preset_html: Dewisol. Gallwch <a href="%{path}">eu rheoli yma</a>
       announcement:
         all_day: Pan gaiff ei wirio, dim ond dyddiadau'r ystod amser fydd yn cael eu harddangos
         ends_at: Dewisol. N fydd y cyhoeddiad yn cael ei gyhoeddi'n awtomatig ar yr adeg hon
@@ -62,7 +61,6 @@ cy:
         setting_default_quote_policy_private: Does dim modd dyfynnu postiadau sydd wedi'u hysgrifennu ar Mastodon ar gyfer dim ond dilynwyr.
         setting_default_quote_policy_unlisted: Pan fydd pobl yn eich dyfynnu, bydd eu postiad hefyd yn cael ei guddio rhag llinellau amser sy'n trendio.
         setting_default_sensitive: Mae cyfryngau sensitif wedi'u cuddio yn rhagosodedig a gellir eu datgelu trwy glicio
-        setting_default_spoiler_field: Yn cadw'r maes rhybudd cynnwys ar agor o fewn y cyfansoddwr. Gallwch gyfaddasu'r testun ar bob postiad.
         setting_display_media_default: Rhybuddio cyn dangos cyfryngau sydd wedi'u marcio fel rhai sensitif
         setting_display_media_hide_all: Rhybuddio cyn dangos yr holl gyfryngau
         setting_display_media_show_all: Dangos yr holl gyfryngau heb rybudd, gan gynnwys cyfryngau sydd wedi'u marcio fel rhai sensitif
@@ -261,7 +259,6 @@ cy:
         setting_default_privacy: Gwelededd postio
         setting_default_quote_policy: Pwy sy'n gallu dyfynnu
         setting_default_sensitive: Marcio cyfryngau fel eu bod yn sensitif bob tro
-        setting_default_spoiler_field: Defnyddio'r rhybuddion cynnwys arferol
         setting_delete_modal: Rhybuddio fi cyn dileu postiad
         setting_disable_hover_cards: Analluogi rhagolwg proffil ar lusgo
         setting_disable_swiping: Analluogi cynigion llusgo

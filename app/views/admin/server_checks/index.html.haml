@@ -1,3 +1,6 @@
+- content_for :page_title do
+  = t('admin.server_checks.title')
+
 - content_for :heading do
   .heading-with-lead
     %h1= t('admin.server_checks.title')
@@ -5,6 +8,7 @@
 
 %h2.heading-medium= t('admin.server_checks.recommendations.title')
 
-- %w(critical warning suggestion error unprocessed completed ignored).each do |category|
-  - if @checks[category]&.any?
-    = render 'admin/server_checks/category', category: category, checks: @checks[category]
+.server-checks
+  - %w(critical warning suggestion error unprocessed completed ignored).each do |category|
+    - if @checks[category]&.any?
+      = render 'admin/server_checks/category', category: category, checks: @checks[category]

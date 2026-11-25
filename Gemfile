@@ -77,7 +77,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rack-proxy', require: 'rack/proxy'
 gem 'rails-i18n', '~> 8.0'
 gem 'redcarpet', '~> 3.6'
-gem 'redis', '~> 5'
+gem 'redis'
 gem 'rqrcode', '~> 3.0'
 gem 'ruby-progressbar', '~> 1.13'
 gem 'sanitize', '~> 7.0'
@@ -117,7 +117,7 @@ group :opentelemetry do
   gem 'opentelemetry-instrumentation-http_client', '~> 0.29.0', require: false
   gem 'opentelemetry-instrumentation-net_http', '~> 0.30.0', require: false
   gem 'opentelemetry-instrumentation-pg', '~> 0.37.0', require: false
-  gem 'opentelemetry-instrumentation-rack', '~> 0.31.0', require: false
+  gem 'opentelemetry-instrumentation-rack', '~> 0.32.0', require: false
   gem 'opentelemetry-instrumentation-rails', '~> 0.42.0', require: false
   gem 'opentelemetry-instrumentation-redis', '~> 0.29.0', require: false
   gem 'opentelemetry-instrumentation-sidekiq', '~> 0.29.0', require: false

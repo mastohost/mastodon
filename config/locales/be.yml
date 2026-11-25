@@ -43,10 +43,11 @@ be:
     self_follow_error: Нельга падпісацца на свой уліковы запіс
   admin:
     account_actions:
-      action: Выканаць дзеянне
       already_silenced: Гэты ўліковы запіс ужо абмежаваны.
       already_suspended: Гэты ўліковы запіс ужо прыпыніў працу.
-      title: Мадэраваць %{acct}
+      notification_title: Карыстальніцкае апавяшчэнне і паведамленне
+      text_box_title: Наступствы гэтага дзеяння
+      title: 'Выканаць дзеянне па мадэрацыі @%{acct}:'
     account_moderation_notes:
       create: Пакінуць нататку
       created_msg: Нататка мадэратара паспяхова створана!
@@ -283,6 +284,7 @@ be:
         update_ip_block: Абнавіць IP правіла
         update_report: Абнавіць скаргу
         update_status: Абнавіць допіс
+        update_tag: Абнавіць хэштэг
         update_user_role: Абнавіць ролю
         update_username_block: Абнавіць правіла імя карыстальніка
       actions:
@@ -915,9 +917,7 @@ be:
       disable: Адключыць
       disabled: Адключана
       enable: Уключыць
-      enable_hint: Пасля ўключэння ваш сервер падпішацца на ўсе публічныя паведамленні з гэтага рэтранслятара і пачне адпраўляць на яго агульнадаступныя паведамленні бягучага серверу.
       enabled: Уключана
-      inbox_url: URL рэтранслятара
       pending: Чаканне зацвярджэння рэтранслятара
       save_and_enable: Захаваць і ўключыць
       setup: Наладзіць злучэнне з рэтранслятарам
@@ -945,7 +945,6 @@ be:
         silence_description_html: Уліковы запіс будзе бачны толькі тым, хто ўжо падпісаны на яго або шукае яго ўручную, што значна абмяжоўвае яго дасяжнасць. Дзеянне заўсёды можна скасаваць. Закрывае ўсе скаргі на гэты ўліковы запіс.
         suspend_description_html: Уліковы запіс і ўсё яго змесціва будуць недаступныя і надалей выдаленыя, узаемадзеянне з імі будзе немагчымым. Дзеянне можна скасаваць на працягу 30 дзён. Закрывае ўсе скаргі на гэты ўліковы запіс.
         warn_description_html: Выкарыстоўвайце гэтае дзеянне, каб даслаць карыстальніку папярэджанне без ужывання іншых мер.
-      actions_description_html: Вырашыце, якія дзеянні распачаць, каб вырашыць гэтую скаргу. Калі вы прымеце меры пакарання ў дачыненні да ўліковага запісу, пра які паведамляецца, ім будзе адпраўлена апавяшчэнне па электроннай пошце, за выключэннем выпадкаў, калі выбрана катэгорыя <strong>Спам</strong>.
       actions_description_remote_html: Вырашыце, як паступіць з гэтай скаргай. Гэта паўплывае толькі на тое як <strong>ваш</strong> сервер звязваецца з аддаленым уліковым запісам і апрацоўвае яго кантэнт.
       actions_no_posts: Да гэтай скаргі не прывязаны допісы да выдалення
       add_to_report: Дадаць яшчэ дэталяў да скаргі
@@ -1000,12 +999,18 @@ be:
       summary:
         action_preambles:
           delete_html: 'Вы збіраецеся <strong>выдаліць</strong> некаторыя з допісаў <strong>@%{acct}</strong>. Гэта будуць:'
+          disable_html: 'Вы збіраецеся <strong>замарозіць</strong> уліковы запіс <strong>@%{acct}</strong>. Гэта:'
           mark_as_sensitive_html: 'Вы збіраецеся <strong>пазначыць</strong> некаторыя з допісаў <strong>@%{acct}</strong> як <strong>уражальныя</strong>. Гэта будуць:'
+          none_html: 'Вы збіраецеся зрабіць <strong>папярэджанне</strong> уліковаму запісу <strong>@%{acct}</strong>. Гэта:'
+          sensitive_html: 'Вы збіраецеся <strong>пазначыць</strong> уліковы запіс <strong>@%{acct}</strong> як <strong>уражальны</strong>. Гэта:'
           silence_html: 'Вы збіраецеся <strong>абмежаваць</strong> уліковы запіс <strong>@%{acct}</strong>. Гэта будзе:'
           suspend_html: 'Вы збіраецеся <strong>прыпыніць</strong> уліковы запіс <strong>@%{acct}</strong>. Гэта будзе:'
         actions:
           delete_html: Выдаліць абразлівы допіс
+          disable_html: Прадухіліць карыстальніка ад выкарыстання ўліковага запісу, але не выдаляць і не хаваць яго змесціва
           mark_as_sensitive_html: Пазначыць медыя абразлівага допіса як далікатнае
+          none_html: Даслаць карыстальніку папярэджанне, без ужывання іншых мер
+          sensitive_html: Прымусова пазначаць усе медыя гэтага карыстальніка як уражальныя
           silence_html: Значна абмежаваць ахоп <strong>@%{acct}</strong>, зрабіўшы профіль і змесціва бачнымі толькі для людзей, якія ўжо падпісаныя, альбо шукае яго ўручную
           suspend_html: Прыпыніць <strong>@%{acct}</strong>, зрабіць профіль і змесціва недаступным і не даваць магчымасці ўзаемадзейнічаць з імі
         close_report: 'Пазначыць скаргу #%{id} як вырашаную'
@@ -1378,50 +1383,6 @@ be:
       appeal_approved: Абскарджана
       appeal_pending: Апеляцыя разглядаецца
       appeal_rejected: Абскарджанне адхілена
-    system_checks:
-      database_schema_check:
-        message_html: Ёсць незавершаныя міграцыі базы даных. Запусціце іх, каб пераканацца, што праграма паводзіць сябе належным чынам
-      elasticsearch_analysis_index_mismatch:
-        message_html: Налады аналізатара індэксаў Elasticsearch пратэрмінаваныя. Калі ласка, запусціце <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: Кластар Elasticsearch нездаровы (чырвоны статус), функцыі пошуку недаступныя
-      elasticsearch_health_yellow:
-        message_html: Кластар Elasticsearch у кепскім стане (жоўты статус), магчыма, варта высветліць прычыну гэтага
-      elasticsearch_index_mismatch:
-        message_html: Супастаўленне індэксаў Elasticsearch састарэла. Выканайце каманду <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Падрабязней у дакументацыі
-        message_html: Ваш кластар Elasticsearch мае больш за адзін вузел, але Mastodon не наладжаны на іх выкарыстанне.
-      elasticsearch_preset_single_node:
-        action: Падрабязней у дакументацыі
-        message_html: Ваш кластар Elasticsearch мае толькі адзін вузел, <code>ES_PRESET</code> неабходна выставіць значэнне <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Ваш сістэмны індэкс Elasticsearch састарэў праз змены ў наладах. Калі ласка, запусціце <code>tootctl search deploy --reset-chewy</code>, каб абнавіць яго.
-      elasticsearch_running_check:
-        message_html: Немагчыма падключыцца да Elasticsearch. Праверце, што ён запушчаны, або адключыце пошук па ўсім тэксце
-      elasticsearch_version_check:
-        message_html: 'Несумяшчальная версія Elasticsearch: %{value}'
-        version_comparison: Elasticsearch %{running_version} выяўлены, але патрабуецца %{required_version}
-      rules_check:
-        action: Кіраваць правіламі сервера
-        message_html: Вы не вызначылі ніякіх правіл сервера.
-      sidekiq_process_check:
-        message_html: Не працуе працэс Sidekiq для %{value} чаргі(-аў). Калі ласка, праверце вашу канфігурацыю Sidekiq
-      software_version_check:
-        action: Праверыць наяўнасць абнаўленняў
-        message_html: Даступна абнаўленне Mastodon.
-      software_version_critical_check:
-        action: Прагледзець даступныя абнаўленні
-        message_html: Даступна крытычнае абнаўленне Mastodon, абнавіцеся як мага хутчэй.
-      software_version_patch_check:
-        action: Прагледзець даступныя абнаўленні
-        message_html: Даступна абнаўленне Mastodon з выпраўленнем памылак.
-      upload_check_privacy_error:
-        action: Для падрабязнасцей націсніце тут
-        message_html: "<strong>Ваш сервер не наладжаны. Прыватнасць карыстальнікаў пад пагрозай.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Для падрабязнасцей націсніце тут
-        message_html: "<strong>Ваша сховішча не наладжана. Прыватнасць карыстальнікаў пад пагрозай.</strong>"
     tags:
       moderation:
         not_trendable: Не можа трапіць у трэнды
@@ -1588,7 +1549,9 @@ be:
       delete: Выдаліць
       dropdown:
         all_actions: Усе дзеянні
+        delete: Выдаліць
         disable: Замарозка
+        mark_as_sensitive: Пазначыць як уражальны
         none: Папярэджанне
         sensitive: Адчув. змесціва
         silence: Абмежав.

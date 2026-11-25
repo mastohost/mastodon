@@ -32,10 +32,8 @@ ca:
     self_follow_error: No es permet seguir el compte propi
   admin:
     account_actions:
-      action: Realitza l'acció
       already_silenced: Aquest compte ja s'ha limitat.
       already_suspended: Aquest compte ja s'ha suspès.
-      title: Fer l'acció de moderació a %{acct}
     account_moderation_notes:
       create: Crea nota
       created_msg: La nota de moderació s'ha creat correctament!
@@ -691,9 +689,7 @@ ca:
       disable: Inhabilita
       disabled: Desactivat
       enable: Activat
-      enable_hint: Una vegada habilitat, el teu servidor es subscriurà a tots els tuts públics d'aquest relay i començarà a enviar-hi tots els tuts públics d'aquest servidor.
       enabled: Activat
-      inbox_url: Enllaç del Relay
       pending: S'està esperant l'aprovació del relay
       save_and_enable: Desa i activa
       setup: Configura una connexió de relay
@@ -713,7 +709,6 @@ ca:
       actions:
         mark_as_sensitive_description_html: Els mèdia dels tuts reportats seran marcats com a sensibles i una acció serà gravada per ajudar a escalar en futures infraccions del mateix compte.
         resolve_description_html: No serà presa cap acció contra el compte denunciat, no se'n registrarà res i l'informe es tancarà.
-      actions_description_html: Decidiu quina acció a prendre per a resoldre aquest informe. Si preneu una acció punitiva contra el compte denunciat, se li enviarà una notificació per correu-e, excepte si se selecciona la categoria <strong>Spam</strong>.
       actions_description_remote_html: Decideix quina acció prendre per a resoldre aquest informe. Això només afectarà com <strong>el teu</strong> servidor es comunica amb aquest compte remot i en gestiona el contingut.
       actions_no_posts: Aquest informe no té associada cap publicació a esborrar
       add_to_report: Afegir més al informe
@@ -975,50 +970,6 @@ ca:
       appeal_approved: Apel·lat
       appeal_pending: Apel·lació pendent
       appeal_rejected: Apel·lació rebutjada
-    system_checks:
-      database_schema_check:
-        message_html: Hi ha pendents migracions de la base de dades. Executeu-les per a assegurar que l'aplicació es comporta com s'espera
-      elasticsearch_analysis_index_mismatch:
-        message_html: La configuració de l'índex de l'analitzador d'Elasticsearch està desactualizada. Executa <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: El cluster de Elasticsearch no es saludable (estat vermell), les funcions de cerca no estan disponibles
-      elasticsearch_health_yellow:
-        message_html: El cluster de Elasticsearch no es saludable (estat groc), és possible que vulguis investigar la raó
-      elasticsearch_index_mismatch:
-        message_html: Els mapes de índex de Elasticsearch estan desactualizats. Si us plau executa <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Veure la documentació
-        message_html: El teu clúster de Elasticsearch té més d'un node però Mastodon no està configurat per a emprar-los.
-      elasticsearch_preset_single_node:
-        action: Veure la documentació
-        message_html: El teu clúster de Elasticsearch té només un node, <code>ES_PRESET</code> hauria de ser configurat com <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: L'índex del teu sistema Elasticsearch està desactualizat degut a un canvi de configuració. Si us plau executa <code>tootctl search deploy --reset-chewy</code> per a actualitzar-lo.
-      elasticsearch_running_check:
-        message_html: No s'ha pogut connectar a Elasticsearch. Verifiqueu que funciona o desactiveu la cerca de text complet
-      elasticsearch_version_check:
-        message_html: 'Versió incompatible de Elasticsearch: %{value}'
-        version_comparison: Elasticsearch %{running_version} està funcionant mentre %{required_version} és requerida
-      rules_check:
-        action: Gestiona les normes del servidor
-        message_html: No has definit cap norma del servidor.
-      sidekiq_process_check:
-        message_html: No hi ha cap procés de Sidekiq executant-se per a la cua (o cues) de %{value}. Reviseu la configuració de Sidekiq
-      software_version_check:
-        action: Veure les actualitzacions disponibles
-        message_html: Hi ha disponible una actualització de Mastodon.
-      software_version_critical_check:
-        action: Veure actualitzacions disponibles
-        message_html: Hi ha disponible una actualització crítica de Mastodon, si us plau, actualitza-la el més abans possible.
-      software_version_patch_check:
-        action: Veure actualitzacions disponibles
-        message_html: Hi ha disponible una actualització de correcció d'errors de Mastodon.
-      upload_check_privacy_error:
-        action: Consulta aquí per a més informació
-        message_html: "<strong>El teu servidor no està ben configurat. La privacitat dels teus usuaris està en risc.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Consulta aquí per a més informació
-        message_html: "<strong>El teu emagatzamatge d'objectes no està ben configurat. La privacitat dels teus usuaris està en risc.</strong>"
     tags:
       moderation:
         not_trendable: No pot ser en tendència

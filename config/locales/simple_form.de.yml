@@ -20,6 +20,7 @@ de:
         text: Du kannst die Syntax wie für Beiträge verwenden – z. B. URLs, Hashtags und Erwähnungen
         title: "(Optional) Für Empfänger*in nicht sichtbar"
       admin_account_action:
+        include_rule_violations: Die E-Mail bezieht die verletzten Serverregeln mit ein, die zur Moderationsmaßnahme geführt haben
         include_statuses: Die Person wird sehen, welche Inhalte dich zu dieser Maßnahme veranlasst haben
         send_email_notification: Benutzer*in wird eine Erklärung erhalten, was mit dem Konto geschehen ist
         text: "(Optional) Du kannst die reguläre Syntax wie für Beiträge verwenden, also auch Profile erwähnen und Hashtags nutzen. Sie wird unter der vorgefertigten Antwort erscheinen."
@@ -30,7 +31,8 @@ de:
           sensitive: Erzwingen, dass alle Medienanhänge dieses Profils mit einer Inhaltswarnung versehen werden.
           silence: Verhindert, dass dieses Profil öffentlich sichtbare Beiträge verfassen kann, und verbirgt alle Beiträge und Benachrichtigungen vor Personen, die diesem Profil nicht folgen. Alle Meldungen zu diesem Konto werden geschlossen.
           suspend: Verhindert jegliche Interaktion von oder zu diesem Konto und löscht dessen Inhalt. Dies kann innerhalb von 30 Tagen rückgängig gemacht werden. Alle Meldungen zu diesem Konto werden geschlossen.
-        warning_preset_html: (Optional) Vorgefertigte Antworten <a href="%{path}">können hier verwaltet werden</a>
+        warning_preset: "(Optional) Eigener Text kann am Ende hinzugefügt werden"
+        warning_preset_explanation: Du hast noch keine vorgefertigten Antworten gespeichert. Du kannst vorgefertigte Antworten bei deinen Meldungen wiederverwenden.
       announcement:
         all_day: Falls aktiviert, werden nur der Tag bzw. die Tage innerhalb des Zeitraums angezeigt
         ends_at: "(Optional) Die Ankündigung wird zu diesem Zeitpunkt automatisch zurückgezogen"
@@ -62,7 +64,6 @@ de:
         setting_default_quote_policy_private: Beiträge, die nur für deine Follower bestimmt sind und auf Mastodon verfasst wurden, können nicht von anderen zitiert werden.
         setting_default_quote_policy_unlisted: Sollten dich andere zitieren, werden ihre zitierten Beiträge ebenfalls nicht in den Trends und öffentlichen Timelines angezeigt.
         setting_default_sensitive: Medien, die mit einer Inhaltswarnung versehen worden sind, werden – je nach Einstellung – erst nach einem zusätzlichen Klick angezeigt
-        setting_default_spoiler_field: Dadurch wird die Inhaltswarnung beim Verfassen von Beiträgen immer aktiviert. Der Warnhinweis kann bei jedem Beitrag individuell angepasst werden.
         setting_display_media_default: Vor der Anzeige von Medien, die eine Inhaltswarnung enthalten, hinweisen
         setting_display_media_hide_all: Vor der Anzeige von allen Medien hinweisen
         setting_display_media_show_all: Alle Medien anzeigen – auch Medien, die eine Inhaltswarnung enthalten
@@ -200,6 +201,8 @@ de:
         text: Antworttext
         title: Titel
       admin_account_action:
+        canned_response_back_link: Vorgefertigte Antworten verwalten
+        include_rule_violatins: Gemeldete Regelverletzung der E-Mail beifügen
         include_statuses: Gemeldete Beiträge der E-Mail beifügen
         send_email_notification: Benachrichtigung per E-Mail
         text: Angepasste Antwort
@@ -257,7 +260,6 @@ de:
         setting_default_privacy: Beitragssichtbarkeit
         setting_default_quote_policy: Wer darf mich zitieren?
         setting_default_sensitive: Medien immer mit einer Inhaltswarnung versehen
-        setting_default_spoiler_field: Inhaltswarnung standardmäßig aktivieren
         setting_delete_modal: Löschen von Beiträgen gesondert bestätigen
         setting_disable_hover_cards: Profilvorschau deaktivieren, wenn die Maus über das Profil bewegt wird
         setting_disable_swiping: Wischgesten deaktivieren

@@ -21,9 +21,6 @@ ku:
       other: Şandî
     posts_tab_heading: Şandî
   admin:
-    account_actions:
-      action: Çalakî yê bike
-      title: Li ser %{acct} çalakiyên li hev hatî pêk bîne
     account_moderation_notes:
       create: Nîşeyekê bihêle
       created_msg: Nîşeyê moderator bi awayekî serkeftî hate afirandin!
@@ -524,9 +521,7 @@ ku:
       disable: Neçalak bike
       disabled: Neçalakkirî
       enable: Çalak bike
-      enable_hint: Gava were çalakkirin, rajekara te dê ji hemî şandiyên giştî yên vê guhêrkerê re bibe endam, û dê dest bi şandina şandiyên giştî yên vê rajekarê bike.
       enabled: Çalakkirî
-      inbox_url: Girêdana guhêrker
       pending: Li benda pêjirandina guhêrker e
       save_and_enable: Tomar û çalak bike
       setup: Girêdanekê guhêrker saz bike
@@ -728,19 +723,6 @@ ku:
         suspend: "%{name} ajimêra %{target} hilda rawestandinê"
       appeal_approved: Îtîraz
       appeal_pending: Îtîraz li benda nirxandinê ye
-    system_checks:
-      database_schema_check:
-        message_html: Koçberiyên databasê yên li bendê hene. Ji kerema xwe wan bişopîne da ku bicîh bikî ku sepan wekî ku tê hêvî kirin tevbigere
-      elasticsearch_running_check:
-        message_html: Bi Elasticsearch re nayê girêdan. Ji kerema xwe kontrol bike ku ew dixebite, an lêgerîna tev-nivîsî neçalak bike
-      elasticsearch_version_check:
-        message_html: 'Guhertoya Elasticsearch a nelihevhatî: %{value}'
-        version_comparison: Elasticsearch %{running_version} dixebite lê %{required_version} pêwîst e
-      rules_check:
-        action: Rêzikên rajekara bi rê ve bibe
-        message_html: Te qet rêzikên rajekara diyar nekiriye.
-      sidekiq_process_check:
-        message_html: Pêvajoyên Sidekiq ên heyî ji bo %{value} di rêz (an) de tune ne. Ji kerema xwe sazkariyên Sidekiq a xwe binirxîne
     tags:
       review: Binêre rewşê
       updated_msg: Sazkariyên hashtag bi awayekî serkeftî hate rojanekirin

@@ -37,10 +37,19 @@ da:
     self_follow_error: Det er ikke tilladt at følge ens egen konto
   admin:
     account_actions:
-      action: Udfør handling
       already_silenced: Denne konto er allerede blevet begrænset.
       already_suspended: Denne konto er allerede suspenderet.
-      title: Udfør moderatorhandling på %{acct}
+      notification_title: Brugernotifikation og besked
+      text_box_title: Konsekvenser af denne handling
+      title: 'Udfør moderatorhandling på @%{acct}:'
+      types:
+        delete: Slet indlæg
+        disable: Fastfrys konto
+        mark_as_sensitive: Markér indlæg som følsomme
+        none: Send en advarsel
+        sensitive: Markér konto som følsom
+        silence: Begræns konto
+        suspend: Suspendér konto
     account_moderation_notes:
       create: Skriv notat
       created_msg: Moderatornotat oprettet!
@@ -275,6 +284,7 @@ da:
         update_ip_block: Opdatér IP-regel
         update_report: Opdatér anmeldelse
         update_status: Opdatér indlæg
+        update_tag: Opdater hashtag
         update_user_role: Opdatér rolle
         update_username_block: Opdatér brugernavn-regel
       actions:
@@ -457,6 +467,9 @@ da:
       pending_reports_html:
         one: "<strong>%{count}</strong> verserende anmeldelse"
         other: "<strong>%{count}</strong> verserende anmeldelser"
+      pending_server_checks_html:
+        one: Der er <strong>%{count}</strong> udestående problem med serveren. Gå til siden <a href="%{url}">Serverens sundhedstilstand</a> for at se flere detaljer.
+        other: Der er <strong>%{count}</strong> udestående problemer med serveren. Gå til siden <a href="%{url}">Serverens sundhedstilstand</a> for at se flere detaljer.
       pending_tags_html:
         one: "<strong>%{count}</strong> afventende hashtag"
         other: "<strong>%{count}</strong> afventende etiketter"
@@ -884,14 +897,13 @@ da:
       title: "%{acct}-relationer"
     relays:
       add_new: Tilføj ny videreformidler
+      bidirectional: Dobbeltrettet
       delete: Slet
       description_html: En <strong>federationsvidereformidler</strong> er en mellemliggende server, der udveksler store mængder offentlige indlæg mellem servere, som abonnerer på og publicerer til den. <strong>Det kan hjælpe små og mellemstore servere med at opdage indhold fra fediverset</strong>, der ellers ville kræve at lokale brugere manuelt følger andre personer på fjernservere.
       disable: Deaktivér
       disabled: Deaktiveret
       enable: Aktivér
-      enable_hint: Når aktiveret, vil din server abonnere på alle offentlige indlæg fra denne videreformidler og vil begynde at sende denne servers offentlige indlæg til den.
       enabled: Aktiveret
-      inbox_url: Videreformidler-URL
       pending: Afventer videreformidlers godkendelse
       save_and_enable: Gem og aktivér
       setup: Opsæt en videreformidlerforbindelse
@@ -917,7 +929,7 @@ da:
         silence_description_html: Kontoen vil kun være synlig for dem, der allerede følger den eller manuelt søger efter den, hvilket i høj grad begrænser dens rækkevidde. Dette kan altid omgøres. Dette lukker alle anmeldelser vedrørende denne konto.
         suspend_description_html: Kontoen og alt dens indhold vil blive utilgængeligt og til sidst slettet, og det vil ikke længere være muligt at interagere med den. Dette kan omgøres inden for 30 dage. Dette lukker alle anmeldelser vedrørende denne konto.
         warn_description_html: Brug dette til at sende en advarsel til brugeren uden at udløse nogen anden handling.
-      actions_description_html: Afgør, hvilke foranstaltning, der skal træffes for at løse denne anmeldelse. Ved en straffende foranstaltning mod den anmeldte konto, fremsendes en e-mailnotifikation, undtagen når kategorien <strong>Spam</strong> er valgt.
+      actions_description_html: Vælg, hvilken handling der skal iværksættes for at behandle denne anmeldelse. Hvis du iværksætter en sanktion mod den anmeldte konto, kan du vælge, hvad der skal stå i den e-mail-besked, der sendes til brugeren, medmindre kategorien <strong>Spam</strong> er valgt.
       actions_description_remote_html: Fastslå en nødvendig handling mhp. at løse denne anmeldelse. Dette vil kun påvirke <strong>din</strong> servers kommunikation med, og indholdshåndtering for, fjernkontoen.
       actions_no_posts: Denne anmeldelse har ingen tilknyttede indlæg at slette
       add_to_report: Føj mere til anmeldelse
@@ -970,14 +982,24 @@ da:
       statuses: Indlæg (%{count})
       statuses_description_html: Krænkende indhold citeres i kommunikationen med den anmeldte konto
       summary:
+        account_action_preamble_html:
+          one: Fra anmeldelsen <a href="%{report_path}">#%{report}</a> med %{count} udvalgt indlæg
+          other: Fra anmeldelsen <a href="%{report_path}">#%{report}</a> med %{count} udvalgte indlæg
+          zero: Fra anmeldelsen <a href="%{report_path}">#%{report}</a> med ingen udvalgte indlæg
         action_preambles:
           delete_html: 'Du er ved at <strong>fjerne</strong> nogle indlæg fra <strong>@%{acct}</strong>. Dette vil:'
+          disable_html: 'Du er ved at <strong>fryse</strong> <strong>@%{acct}</strong>s konto. Dette vil:'
           mark_as_sensitive_html: 'Du er ved at <strong>markere</strong> nogle indlæg fra <strong>@%{acct}</strong> som <strong>sensitive</strong>. Dette vil:'
+          none_html: 'Du er ved at <strong>advare</strong> <strong>@%{acct}</strong>. Dette vil:'
+          sensitive_html: 'Du er ved at <strong>markere</strong> <strong>@%{acct}</strong>''s konto som <strong>følsom</strong>. Dette vil:'
           silence_html: 'Du er ved at <strong>begrænse</strong> nogle indlæg fra kontoen <strong>@%{acct}</strong>. Dette vil:'
           suspend_html: 'Du er ved at <strong>suspendere</strong> kontoen <strong>@%{acct}</strong>. Dette vil:'
         actions:
           delete_html: Fjern de overtrædende indlæg
+          disable_html: Forhindrer brugeren i at benytte sin konto, men sletter eller skjuler ikke indholdet
           mark_as_sensitive_html: Markér medier i overtrædende indlæg som sensitive
+          none_html: Send en advarsel til brugeren uden at udløse nogen anden handling
+          sensitive_html: Tving alle denne brugers mediefiler til at blive markeret som følsomme
           silence_html: Begræns kraftigt rækkeviden for <strong>@%{acct}</strong> ved at gøre vedkommendes profil og indhold synligt alene for personer, som allerede er følgere eller manuelt slår profilen op
           suspend_html: Suspendér <strong>@%{acct}</strong>, hvilket gør vedkommendes profil og indhold utilgængeligt og umuligt at interagere med
         close_report: 'Markér anmeldelsen #%{id} som løst'
@@ -1346,50 +1368,6 @@ da:
       appeal_approved: Appelleret
       appeal_pending: Appel afventer
       appeal_rejected: Appel afvist
-    system_checks:
-      database_schema_check:
-        message_html: Der er afventende databasemigreringer. Kør dem venligst for at sikre, at applikationen opfører sig som forventet
-      elasticsearch_analysis_index_mismatch:
-        message_html: Elasticsearch-indeksanalyseringsindstillinger er forældede. Kør <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: Elasticsearch-klynge er syg (rød status), søgefunktioner er utilgængelige
-      elasticsearch_health_yellow:
-        message_html: Elasticsearch klynge er syg (gul status), man ønsker måske at tjekke årsagen
-      elasticsearch_index_mismatch:
-        message_html: Elasticsearch-indekseringer er forældede. Kør <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Se dokumentation
-        message_html: Dit Elasticsearch-cluster har mere end én node, men Mastodon er ikke konfigureret til at bruge dem.
-      elasticsearch_preset_single_node:
-        action: Se dokumentation
-        message_html: Dit Elasticsearch-cluster har kun én node, <code>ES_PRESET</code> skal sættes til <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Elasticsearch-systemindekset er forældet grundet en indstillingsændring. Kør <code>tootctl search deploy --reset-chewy</code> for at opdatere det.
-      elasticsearch_running_check:
-        message_html: Kunne ikke oprette forbindelse til Elasticsearch. Tjek, at den kører, eller deaktivér fuldtekstsøgning
-      elasticsearch_version_check:
-        message_html: 'Inkompatibel Elasticsearch-version: %{value}'
-        version_comparison: Elasticsearch %{running_version} kører, men %{required_version} kræves
-      rules_check:
-        action: Håndtér serverregler
-        message_html: Ingen serverregler defineret.
-      sidekiq_process_check:
-        message_html: Ingen Sidekiq-proces kører for %{value}-kø(er). Gennemgå Sidekiq-opsætningen
-      software_version_check:
-        action: Se tilgængelige opdateringer
-        message_html: En Mastodon-opdatering er tilgængelig.
-      software_version_critical_check:
-        action: Se tilgængelige opdateringer
-        message_html: En kritisk Mastodon-opdatering er tilgængelig. Opdatér hurtigst muligt.
-      software_version_patch_check:
-        action: Se tilgængelige opdateringer
-        message_html: En Mastodon-fejlrettelsesopdatering er tilgængelig.
-      upload_check_privacy_error:
-        action: Tjek her for flere oplysninger
-        message_html: "<strong>Webserveren er fejlopsat. Brugernes fortrolighed er i fare.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Tjek her for flere oplysninger
-        message_html: "<strong>Objektlageret er fejlopsat. Brugernes fortrolighed er i fare.</strong>"
     tags:
       moderation:
         not_trendable: Ikke trendegnet
@@ -1544,7 +1522,9 @@ da:
       delete: Slet
       dropdown:
         all_actions: Alle handlinger
+        delete: Slet
         disable: Frys
+        mark_as_sensitive: Markér som følsomt
         none: Advarsel
         sensitive: Følsomt
         silence: Begræns

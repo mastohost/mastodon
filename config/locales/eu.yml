@@ -37,10 +37,8 @@ eu:
     self_follow_error: Zure kontua bera jarraitzea ez dago onartuta
   admin:
     account_actions:
-      action: Burutu ekintza
       already_silenced: Kontu hau dagoeneko mugatua izan da.
       already_suspended: Kontu hau dagoeneko kanporatua izan da.
-      title: Burutu moderazio ekintza %{acct} kontuan
     account_moderation_notes:
       create: Sortu oharra
       created_msg: Moderazio oharra ongi sortu da!
@@ -891,9 +889,7 @@ eu:
       disable: Desgaitu
       disabled: Desgaituta
       enable: Gaitu
-      enable_hint: Behin gaituta, zure zerbitzaria errele honetako bidalketa publiko guztietara harpidetuko da, eta zerbitzari honetako bidalketa publikoak errelera bidaltzen hasiko da.
       enabled: Gaituta
-      inbox_url: Errelearen URLa
       pending: Erreleak onartzearen zain
       save_and_enable: Gorde eta gaitu
       setup: Ezarri errele konexio bat
@@ -919,7 +915,6 @@ eu:
         silence_description_html: Kontua lehendik jarraitzen diotenentzat edo eskuz bilatzen dutenentzat soilik izango da ikusgai, eta haren irismena asko mugatuko da. Hau beti desegin daiteke. Kontu honen aurkako salaketa guztiak ixten ditu.
         suspend_description_html: Kontua eta haren eduki guztia eskuraezin geratuko dira eta, azkenean, ezabatu egingo dira; ezin izango da harekin elkarreragin. Hau 30 egunen barruan desegin daiteke. Kontu honen aurkako salaketa guztiak ixten ditu.
         warn_description_html: Erabili hau erabiltzaileari abisu bat bidaltzeko, beste ekintzarik abiarazi gabe.
-      actions_description_html: Erabaki txosten hau konpontzeko ze ekintza hartu. Salatutako kontuaren aurka zigor ekintza bat hartzen baduzu, eposta jakinarazpen bat bidaliko zaie, <strong>Spam</strong> kategoria hautatzean ezik.
       actions_description_remote_html: Hautatu txosten honi konponbidea aurkitzeko zein neurri hartu. Hau soilik <strong>zure</strong> zerbitzaria urruneko kontu honekin nola komunikatu eta bere edukia nola maneiatzeko da.
       actions_no_posts: Txosten honek ez du ezabatzeko lotutako argitalpenik
       add_to_report: Gehitu gehiago txostenera
@@ -1348,50 +1343,6 @@ eu:
       appeal_approved: Apelatua
       appeal_pending: Apelazioa zain
       appeal_rejected: Apelazioa baztertuta
-    system_checks:
-      database_schema_check:
-        message_html: Aplikatu gabeko datu-basearen migrazioak daude. Exekutatu aplikazioak esperotako portaera izan dezan
-      elasticsearch_analysis_index_mismatch:
-        message_html: Elasticsearch indize-analizatzailearen ezarpenak zaharkituta daude. Mesedez, exekutatu <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: Elasticsearch-en klusterra ez dago osasuntsu (egoera gorria), bilaketa-eginbideak ez daude erabilgarri
-      elasticsearch_health_yellow:
-        message_html: Elasticsearch-en klusterra ez dago osasuntsu (egoera horia), baliteke arrazoia ikertu nahi izatea
-      elasticsearch_index_mismatch:
-        message_html: Elasticsearch indexatze-mapeatzeak zaharkituta daude. Exekutatu <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Ikusi dokumentazioa
-        message_html: Zure Elasticsearch-eko klusterrak nodo bat baino gehiago dauka, baina Mastodonek ezin ditu erabili ez dagoelako horretarako konfiguratuta.
-      elasticsearch_preset_single_node:
-        action: Ikusi dokumentazioa
-        message_html: 'Zure Elasticsearch-eko klusterrak nodo bakarra dauka, hortaz, <code>ES_PRESET</code> balore honetan ezarri beharko zenuke: <code>single_node_cluster</code>.'
-      elasticsearch_reset_chewy:
-        message_html: Zure Elasticsearch indexatze sistematikoa zaharkituta dago ezarpen bat aldatu delako. Eguneratzeko, exekutatu <code>tootctl search deploy --reset-chewy</code>.
-      elasticsearch_running_check:
-        message_html: Ezin izan da Elasticsearch-era konektatu. Egiaztatu martxan dagoela edo desgaitu testu osoko bilaketa
-      elasticsearch_version_check:
-        message_html: 'Elasticsearch bertsio bateraezina: %{value}'
-        version_comparison: Elasticsearch %{running_version} exekutatzen ari da, baina %{required_version} behar da
-      rules_check:
-        action: Kudeatu zerbitzariaren arauak
-        message_html: Ez duzu zerbitzariaren araurik definitu.
-      sidekiq_process_check:
-        message_html: Ez da ari Sidekiq prozesurik exekutatzen %{value} ilad(et)an. Egiaztatu Sidekiq konfigurazioa
-      software_version_check:
-        action: Ikusi eguneraketa eskuragarriak
-        message_html: Mastodon eguneratze bat eskuragarri dago.
-      software_version_critical_check:
-        action: Ikusi eguneraketa eskuragarriak
-        message_html: Mastodon eguneraketa kritikoa eskuragarri, mesedez eguneratu ahal bezain azkar.
-      software_version_patch_check:
-        action: Ikusi eguneraketa eskuragarriak
-        message_html: Mastodon akats konponketa eguneratze bat eskuragarri dago.
-      upload_check_privacy_error:
-        action: Ikus hemen informazio gehiagorako
-        message_html: "<strong>Zure zerbitzaria ez dago ongi konfiguratua. Zure erabiltzaileen pribatutasuna arriskuan dago.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Ikus hemen informazio gehiagorako
-        message_html: "<strong>Zure objektuen biltegiratzea ez dago ongi konfiguratua. Zure erabiltzaileen pribatutasuna arriskuan dago.</strong>"
     tags:
       moderation:
         not_trendable: Ez dago modan

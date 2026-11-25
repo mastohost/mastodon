@@ -49,10 +49,8 @@ cy:
     self_follow_error: Chewch chi ddim dilyn eich cyfrif eich hun
   admin:
     account_actions:
-      action: Cyflawni gweithred
       already_silenced: Mae'r cyfrif hwn eisoes wedi'i gyfyngu.
       already_suspended: Mae'r cyfrif hwn eisoes wedi'i atal.
-      title: Cyflawni gweithred cymedroli ar %{acct}
     account_moderation_notes:
       create: Gadael nodyn
       created_msg: Crëwyd nodyn cymedroli'n llwyddiannus!
@@ -291,6 +289,7 @@ cy:
         update_ip_block: Diweddaru rheol IP
         update_report: Diweddaru Adroddiad
         update_status: Diweddaru Postiad
+        update_tag: Diweddaru Hashnod
         update_user_role: Diweddaru Rôl
         update_username_block: Diweddaru Rheol Enw Defnyddiwr
       actions:
@@ -941,9 +940,7 @@ cy:
       disable: Analluogi
       disabled: Analluogwyd
       enable: Galluogi
-      enable_hint: Unwaith y bydd wedi ei alluogi, bydd eich gweinydd yn tanysgrifio i holl bostiadau cyhoeddus o'r relái hwn, ac yn dechrau anfon postiadau'r gweinydd hwn ato.
       enabled: Galluogwyd
-      inbox_url: URL relái
       pending: Yn aros am gymeradwyaeth i'r relái
       save_and_enable: Cadw a galluogi
       setup: Yn gosod cysylltiad relái
@@ -973,7 +970,6 @@ cy:
         silence_description_html: Dim ond i'r rhai sydd eisoes yn ei ddilyn neu sy'n edrych amdano â llaw y bydd y cyfrif yn weladwy, gan gyfyngu'n sylweddol ar ei gyrhaeddiad. Mae gwrthdroi hyn bob amser. Mae hyn yn cau pob adroddiad yn erbyn y cyfrif hwn.
         suspend_description_html: Bydd dim modd cael mynediad at y cyfrif a'i holl gynnwys ac yn y pen draw byddan nhw'n cael eu dileu, a bydd rhyngweithio ag ef yn amhosibl. Mae modd gwrthdroi hyn o fewn 30 diwrnod. Mae hyn yn cau pob adroddiad yn erbyn y cyfrif hwn.
         warn_description_html: Defnyddiwch hwn i anfon rhybudd at y defnyddiwr, heb gychwyn unrhyw gamau eraill.
-      actions_description_html: Penderfynwch pa gamau i'w cymryd i delio gyda'r adroddiad hwn. Os cymerwch gamau cosbi yn erbyn y cyfrif a adroddwyd, bydd hysbysiad e-bost yn cael ei anfon atyn nhw, ac eithrio pan fydd y categori <strong>Sbam</strong> yn cael ei ddewis.
       actions_description_remote_html: Penderfynwch pa gamau i'w cymryd i ddatrys yr adroddiad hwn. Bydd hyn ond yn effeithio ar sut <strong>mae'ch</strong> gweinydd yn cyfathrebu â'r cyfrif hwn o bell ac yn trin ei gynnwys.
       actions_no_posts: Nid oes gan yr adroddiad hwn unrhyw bostiadau cysylltiedig i'w dileu
       add_to_report: Ychwanegu rhagor i adroddiad
@@ -1410,50 +1406,6 @@ cy:
       appeal_approved: Apeliwyd
       appeal_pending: Apêl yn aros
       appeal_rejected: Mae'r apêl wedi'i gwrthod
-    system_checks:
-      database_schema_check:
-        message_html: Mae mudo cronfa ddata ar fin digwydd. Rhedwch nhw i sicrhau bod y rhaglen yn ymddwyn yn ôl y disgwyl
-      elasticsearch_analysis_index_mismatch:
-        message_html: Mae gosodiadau dadansoddwr mynegai Elasticsearch wedi dyddio. Rhedwch <code>tootctl search deploy --only-mapping --only=%{value}</code>
-      elasticsearch_health_red:
-        message_html: Mae clwstwr Elasticsearch yn afiach (statws coch), nid yw'r nodweddion chwilio ar gael
-      elasticsearch_health_yellow:
-        message_html: Mae clwstwr Elasticsearch yn afiach (statws melyn), efallai y byddwch am ymchwilio i'r rheswm
-      elasticsearch_index_mismatch:
-        message_html: Mae mapiau mynegai Elasticsearch yn hen ffasiwn. Rhedwch <code>tootctl search deploy --only=%{value}</code>
-      elasticsearch_preset:
-        action: Darllenwch y ddogfennaeth
-        message_html: Mae gan eich clwstwr Elasticsearch fwy nag un nod, ond nid yw Mastodon wedi'i ffurfweddu i'w defnyddio.
-      elasticsearch_preset_single_node:
-        action: Darllenwch y ddogfennaeth
-        message_html: Dim ond un nod sydd gan eich clwstwr Elasticsearch, mae angen gosod <code>ES_PRESET</code> i <code>single_node_cluster</code>.
-      elasticsearch_reset_chewy:
-        message_html: Mae eich mynegai system Elasticsearch wedi dyddio oherwydd newid gosodiad. Rhedwch chwiliad <code>tootctl search deploy --reset-chewy</code> i'w ddiweddaru.
-      elasticsearch_running_check:
-        message_html: Methu cysylltu ag Elasticsearch. Gwiriwch ei fod yn rhedeg, neu analluogwch chwiliad testun llawn
-      elasticsearch_version_check:
-        message_html: 'Fersiwn Elasticsearch anghydnaws: %{value}'
-        version_comparison: Mae Elasticsearch %{running_version} yn rhedeg tra bod angen %{required_version}
-      rules_check:
-        action: Rheoli rheolau gweinydd
-        message_html: Nid ydych wedi diffinio unrhyw reolau gweinydd.
-      sidekiq_process_check:
-        message_html: Does dim proses Sidekiq yn rhedeg ar gyfer y ciw(iau) %{value}. Adolygwch eich ffurfweddiad Sidekiq
-      software_version_check:
-        action: Gweld y diweddariadau sydd ar gael
-        message_html: Mae diweddariad Mastodon ar gael.
-      software_version_critical_check:
-        action: Gweld y diweddariadau sydd ar gael
-        message_html: Mae diweddariad hanfodol Mastodon ar gael, diweddarwch cyn gynted â phosibl.
-      software_version_patch_check:
-        action: Gweld y diweddariadau sydd ar gael
-        message_html: Mae diweddariad cywiro gwal Mastodon ar gael.
-      upload_check_privacy_error:
-        action: Ewch yma am fwy o wybodaeth
-        message_html: "<strong>Mae eich gweinydd gwe wedi'i gam ffurfweddu.. Mae preifatrwydd eich defnyddwyr mewn perygl.</strong>"
-      upload_check_privacy_error_object_storage:
-        action: Ewch yma am fwy o wybodaeth
-        message_html: "<strong>Mae eich storfa gwrthrychau wedi'i cham ffurfweddu. Mae preifatrwydd eich defnyddwyr mewn perygl.</strong>"
     tags:
       moderation:
         not_trendable: Ddim yn trendio
